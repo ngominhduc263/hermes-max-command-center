@@ -1,0 +1,54 @@
+Hermes Max · Command Center
+===========================
+
+This package modifies an existing Hermes Agent installation. It is an
+independent community project and is **not** affiliated with, endorsed by, or
+supported by Nous Research.
+
+Hermes Agent
+------------
+
+Hermes Agent is Copyright (c) 2025 Nous Research and is distributed under the
+MIT License. See https://github.com/NousResearch/hermes-agent.
+
+Six files in `overlay/` are **modified copies** of Hermes Agent source files.
+They carry Nous Research's copyright, and the MIT permission notice in LICENSE
+covers their redistribution here:
+
+    overlay/web/src/App.tsx
+    overlay/web/src/components/ChatSidebar.tsx
+    overlay/web/src/index.css
+    overlay/web/src/pages/ChatPage.tsx
+    overlay/web/src/pages/SessionsPage.tsx
+    overlay/web/src/themes/presets.ts
+
+Six further Hermes Agent files are **not** shipped in this package. They are
+edited a few lines at a time, in place, on the machine where it is installed,
+by `Patch-HermesCore.py`:
+
+    agent/i18n.py
+    tools/approval.py
+    hermes_cli/web_server.py
+    web/src/i18n/types.ts
+    web/src/i18n/context.tsx
+    web/src/main.tsx
+
+That is deliberate. Shipping whole copies of those files would silently
+downgrade them whenever the installed Hermes is newer than this package — which
+happened twice during development, once demoting a security-relevant dangerous
+command detector, and once breaking every other language's build. Every patch
+step refuses rather than guesses when it cannot recognise the code it is
+editing, and every one of them is idempotent.
+
+Everything else in `overlay/` (62 files), together with the PowerShell scripts,
+the Python self-tests and the documentation, was written for this package.
+
+Upstream bug reports
+--------------------
+
+Development of this package surfaced several defects in Hermes Agent itself.
+Where this package works around one, the reasoning and the upstream code
+references are recorded in the source comments of the module concerned, so the
+workaround can be removed once upstream changes. See CHANGELOG-vi.md and
+`Test-HermesPermissions.py` / `Test-HermesSessionTree.py`, which fail against an
+unpatched Hermes and pass against a patched one.

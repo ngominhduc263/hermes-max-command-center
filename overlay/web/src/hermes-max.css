@@ -1,0 +1,6309 @@
+/* ------------------------------------------------------------------ */
+/* Hermes Teal Max                                                    */
+/*                                                                    */
+/* A non-invasive dashboard skin layered on top of the Nous design    */
+/* system.  Page-specific class names keep the patch resilient across  */
+/* upstream updates and avoid changing terminal / gateway behaviour.   */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --hermes-max-panel: color-mix(
+    in srgb,
+    var(--midground-base) 5%,
+    var(--background-base)
+  );
+  --hermes-max-panel-strong: color-mix(
+    in srgb,
+    var(--midground-base) 8%,
+    var(--background-base)
+  );
+  --hermes-max-line: color-mix(in srgb, var(--midground-base) 18%, transparent);
+  --hermes-max-line-soft: color-mix(in srgb, var(--midground-base) 10%, transparent);
+  --hermes-max-glow: color-mix(in srgb, #34d399 16%, transparent);
+  --hermes-max-warm: #ffd78a;
+}
+
+[data-hermes-max="true"] {
+  background:
+    radial-gradient(circle at 76% -18%, var(--hermes-max-glow), transparent 34rem),
+    radial-gradient(circle at 18% 120%, color-mix(in srgb, #f59e0b 8%, transparent), transparent 30rem),
+    var(--background-base);
+}
+
+.hermes-max-sidebar {
+  box-shadow: 14px 0 38px rgb(0 0 0 / 0.18);
+  backdrop-filter: blur(18px);
+}
+
+@media (min-width: 1024px) {
+  .hermes-max-sidebar.lg\:w-14 {
+    width: 3.5rem !important;
+  }
+}
+
+.hermes-max-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  height: 1.15rem;
+  padding-inline: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--midground-base) 28%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--midground-base) 8%, transparent);
+  color: var(--hermes-max-warm);
+  font: 700 0.625rem/1 var(--theme-font-mono);
+  letter-spacing: 0.12em;
+}
+
+.hermes-max-main {
+  background: linear-gradient(180deg, rgb(0 0 0 / 0.04), transparent 18rem);
+}
+
+/* Chat -------------------------------------------------------------- */
+
+.hermes-max-chat-page {
+  gap: 0.75rem;
+}
+
+.hermes-max-chat-toolbar {
+  display: flex;
+  min-height: 3rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--hermes-max-line-soft);
+  border-radius: 0.75rem;
+  background:
+    linear-gradient(110deg, color-mix(in srgb, var(--midground-base) 7%, transparent), transparent 62%),
+    var(--hermes-max-panel);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.14);
+}
+
+.hermes-max-chat-heading {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.hermes-max-live-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #34d399;
+  box-shadow: 0 0 0 0.2rem rgb(52 211 153 / 0.12), 0 0 1rem rgb(52 211 153 / 0.38);
+}
+
+.hermes-max-chat-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--midground);
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.hermes-max-chat-subtitle {
+  color: var(--color-text-tertiary);
+  font-size: 0.75rem;
+}
+
+.hermes-max-chat-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.hermes-max-terminal {
+  border: 1px solid color-mix(in srgb, var(--midground-base) 16%, transparent);
+  border-radius: 0.9rem !important;
+  box-shadow:
+    0 20px 55px rgb(0 0 0 / 0.36),
+    inset 0 1px 0 rgb(255 255 255 / 0.025) !important;
+}
+
+.hermes-max-terminal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(145deg, rgb(255 215 138 / 0.025), transparent 34%);
+}
+
+.hermes-max-terminal > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hermes-max-xterm {
+  padding: 0.35rem 0.25rem;
+}
+
+.hermes-max-chat-rail {
+  width: 19rem !important;
+  padding: 0.65rem;
+  border: 1px solid var(--hermes-max-line-soft);
+  border-radius: 0.85rem;
+  background: linear-gradient(180deg, var(--hermes-max-panel-strong), var(--hermes-max-panel));
+  box-shadow: 0 16px 34px rgb(0 0 0 / 0.2);
+}
+
+.hermes-max-chat-rail [class*="text-xs"] {
+  font-size: 0.76rem;
+}
+
+.hermes-max-chat-rail [class*="text-sm"] {
+  font-size: 0.9rem;
+}
+
+/* Sessions ---------------------------------------------------------- */
+
+.hermes-max-sessions-page {
+  width: min(100%, 98rem);
+  margin-inline: auto;
+  padding-bottom: 2rem;
+  gap: 1rem;
+}
+
+.hermes-max-session-stats {
+  gap: 0.5rem 0.75rem !important;
+  border-color: var(--hermes-max-line-soft) !important;
+  border-radius: 0.8rem;
+  background: linear-gradient(110deg, var(--hermes-max-panel-strong), var(--hermes-max-panel)) !important;
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.13);
+}
+
+.hermes-max-session-stats > div {
+  min-width: 7.3rem;
+  padding: 0.2rem 0.75rem;
+  border-right: 1px solid var(--hermes-max-line-soft);
+}
+
+.hermes-max-session-stats > div:last-child {
+  border-right: 0;
+}
+
+.hermes-max-session-controls {
+  padding: 0.65rem;
+  border: 1px solid var(--hermes-max-line-soft);
+  border-radius: 0.75rem;
+  background: var(--hermes-max-panel);
+}
+
+.hermes-max-session-row {
+  border-color: var(--hermes-max-line-soft) !important;
+  border-radius: 0.7rem;
+  background: color-mix(in srgb, var(--midground-base) 2.5%, transparent);
+  box-shadow: 0 8px 18px rgb(0 0 0 / 0.08);
+}
+
+.hermes-max-session-row:hover {
+  border-color: color-mix(in srgb, var(--midground-base) 28%, transparent) !important;
+  background: color-mix(in srgb, var(--midground-base) 5%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgb(0 0 0 / 0.15);
+}
+
+.hermes-max-session-row > div:first-child {
+  padding: 0.85rem 1rem;
+}
+
+.hermes-max-session-row [class*="text-xs"] {
+  font-size: 0.78rem;
+}
+
+.hermes-max-session-row [class*="text-sm"] {
+  font-size: 0.94rem;
+}
+
+.hermes-max-overview-card {
+  border-color: var(--hermes-max-line-soft) !important;
+  border-radius: 0.85rem;
+  background: linear-gradient(180deg, var(--hermes-max-panel-strong), var(--hermes-max-panel));
+  box-shadow: 0 14px 32px rgb(0 0 0 / 0.14);
+}
+
+.hermes-max-recent-session {
+  border-color: var(--hermes-max-line-soft) !important;
+  border-radius: 0.65rem;
+  background: rgb(0 0 0 / 0.08);
+  transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+}
+
+.hermes-max-recent-session:hover {
+  border-color: color-mix(in srgb, var(--midground-base) 26%, transparent) !important;
+  background: color-mix(in srgb, var(--midground-base) 4%, transparent);
+  transform: translateX(2px);
+}
+
+@media (min-width: 1600px) {
+  .hermes-max-sessions-page {
+    padding-inline: 0.5rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hermes-max-chat-toolbar {
+    min-height: 2.75rem;
+  }
+
+  .hermes-max-chat-subtitle {
+    display: none;
+  }
+
+  .hermes-max-session-stats > div {
+    min-width: 5.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hermes-max-chat-toolbar {
+    align-items: flex-start;
+  }
+
+  .hermes-max-chat-actions button span:last-child {
+    display: none;
+  }
+
+  .hermes-max-session-stats > div {
+    width: calc(50% - 0.5rem);
+    border-right: 0;
+  }
+}
+
+/* Rich Command Chat ------------------------------------------------ */
+
+.hermes-command-view-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.18rem;
+  border: 1px solid rgb(127 187 170 / 0.16);
+  border-radius: 0.52rem;
+  background: rgb(0 0 0 / 0.18);
+}
+
+.hermes-command-view-switch button {
+  min-height: 1.8rem;
+  padding-inline: 0.55rem;
+  border-radius: 0.38rem;
+  color: rgb(190 216 207 / 0.62);
+  font-size: 0.7rem;
+}
+
+.hermes-command-view-switch button.is-active {
+  background: linear-gradient(135deg, rgb(247 183 50 / 0.22), rgb(247 183 50 / 0.08));
+  color: #f6d584;
+  box-shadow: inset 0 0 0 1px rgb(247 183 50 / 0.34);
+}
+
+.hermes-command-conversation {
+  position: relative;
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(151 202 187 / 0.18);
+  border-radius: 0.82rem;
+  background:
+    radial-gradient(circle at 18% 0%, rgb(14 116 105 / 0.13), transparent 30rem),
+    linear-gradient(145deg, rgb(4 24 25 / 0.97), rgb(2 14 16 / 0.99));
+  box-shadow: 0 20px 55px rgb(0 0 0 / 0.28);
+}
+
+.hermes-command-conversation::before {
+  content: "COMMAND CHAT";
+  position: absolute;
+  top: 0.62rem;
+  right: 0.8rem;
+  z-index: 2;
+  color: rgb(247 183 50 / 0.34);
+  font: 700 0.58rem/1 var(--theme-font-mono);
+  letter-spacing: 0.18em;
+  pointer-events: none;
+}
+
+.hermes-command-conversation-viewport {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 2.15rem clamp(0.7rem, 1.35vw, 1.15rem) 1.25rem;
+}
+
+.hermes-command-message-list {
+  width: 100%;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.72rem;
+}
+
+.hermes-command-message {
+  width: fit-content;
+  max-width: 92%;
+  position: relative;
+  padding: 1rem 1.08rem;
+  border: 1px solid rgb(151 202 187 / 0.13);
+  border-radius: 0.72rem;
+  background: linear-gradient(135deg, rgb(8 39 40 / 0.9), rgb(5 25 28 / 0.88));
+  box-shadow: 0 10px 26px rgb(0 0 0 / 0.12);
+}
+
+.hermes-command-message.is-user {
+  width: fit-content;
+  max-width: min(78%, 58rem);
+  align-self: flex-end;
+  margin-left: auto;
+  border-color: rgb(30 213 172 / 0.24);
+  background: linear-gradient(135deg, rgb(8 54 52 / 0.88), rgb(6 36 39 / 0.9));
+}
+
+.hermes-command-message.is-assistant {
+  width: fit-content;
+  max-width: min(94%, 76rem);
+  align-self: flex-start;
+  margin-right: auto;
+  border-color: rgb(247 183 50 / 0.22);
+}
+
+.hermes-command-message.is-tool {
+  width: fit-content;
+  max-width: min(90%, 68rem);
+  align-self: flex-start;
+  margin-right: auto;
+  padding-block: 0.68rem;
+  border-style: dashed;
+  background: rgb(3 21 23 / 0.76);
+}
+
+.hermes-command-message > header {
+  display: flex;
+  align-items: center;
+  gap: 0.48rem;
+  margin-bottom: 0.62rem;
+}
+
+.hermes-command-message > header strong {
+  color: #e9f4ef;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.hermes-command-message > header time {
+  margin-left: auto;
+  color: rgb(190 216 207 / 0.42);
+  font: 500 0.63rem/1 var(--theme-font-mono);
+}
+
+.hermes-command-message-avatar {
+  display: inline-flex;
+  width: 1.8rem;
+  height: 1.8rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(247 183 50 / 0.34);
+  border-radius: 999px;
+  color: #f6c75c;
+  background: rgb(247 183 50 / 0.08);
+}
+
+.hermes-command-message.is-user .hermes-command-message-avatar {
+  border-color: rgb(31 221 180 / 0.38);
+  color: #50e3bd;
+  background: rgb(31 221 180 / 0.1);
+}
+
+.hermes-command-message-plain {
+  color: rgb(231 242 237 / 0.88);
+  font-size: 0.94rem;
+  line-height: 1.72;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.hermes-command-message .text-foreground {
+  color: rgb(231 242 237 / 0.9);
+  font-size: 0.94rem;
+  line-height: 1.72;
+}
+
+.hermes-command-message pre {
+  border-color: rgb(151 202 187 / 0.14);
+  border-radius: 0.45rem;
+  background: rgb(0 0 0 / 0.26);
+}
+
+.hermes-command-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.hermes-command-tool-card {
+  overflow: hidden;
+  border: 1px solid rgb(151 202 187 / 0.14);
+  border-radius: 0.5rem;
+  background: rgb(3 22 24 / 0.72);
+}
+
+.hermes-command-tool-card summary {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.56rem 0.62rem;
+  color: rgb(223 238 232 / 0.78);
+  font: 600 0.7rem/1.2 var(--theme-font-mono);
+  cursor: pointer;
+  list-style: none;
+}
+
+.hermes-command-tool-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.hermes-command-tool-icon {
+  display: inline-flex;
+  color: #f6c75c;
+}
+
+.hermes-command-tool-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #45d6a8;
+  font-size: 0.6rem;
+  font-weight: 500;
+}
+
+.hermes-command-tool-card > pre {
+  max-height: 15rem;
+  margin: 0 0.55rem 0.55rem;
+  overflow: auto;
+  padding: 0.6rem;
+  color: rgb(204 225 217 / 0.72);
+  font-size: 0.65rem;
+  white-space: pre-wrap;
+}
+
+.hermes-command-thinking,
+.hermes-command-chat-state,
+.hermes-command-chat-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  color: rgb(209 229 221 / 0.58);
+  font-size: 0.76rem;
+}
+
+.hermes-command-thinking {
+  align-self: flex-start;
+  padding: 0.62rem 0.8rem;
+  border: 1px solid rgb(247 183 50 / 0.18);
+  border-radius: 0.55rem;
+  color: #e5c66f;
+  background: rgb(247 183 50 / 0.05);
+}
+
+.hermes-command-chat-state,
+.hermes-command-chat-empty {
+  min-height: 100%;
+  flex-direction: column;
+  text-align: center;
+}
+
+.hermes-command-chat-empty svg {
+  color: #d9ad45;
+}
+
+.hermes-command-chat-empty strong {
+  color: #edf6f2;
+  font-size: 1rem;
+}
+
+.hermes-command-chat-state.is-error {
+  color: #f0a89e;
+}
+
+.hermes-command-composer {
+  flex: 0 0 auto;
+  margin: 0 0.8rem 0.8rem;
+  padding: 0.68rem;
+  border: 1px solid rgb(247 183 50 / 0.3);
+  border-radius: 0.72rem;
+  background: linear-gradient(135deg, rgb(7 35 36 / 0.98), rgb(4 23 26 / 0.98));
+  box-shadow: 0 -12px 35px rgb(0 0 0 / 0.18), 0 12px 28px rgb(0 0 0 / 0.18);
+}
+
+.hermes-command-composer textarea {
+  display: block;
+  width: 100%;
+  min-height: 3.2rem;
+  max-height: 10rem;
+  resize: vertical;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #edf6f2;
+  font: 500 0.86rem/1.5 var(--theme-font-sans);
+}
+
+.hermes-command-composer textarea::placeholder {
+  color: rgb(190 216 207 / 0.42);
+}
+
+.hermes-command-composer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid rgb(151 202 187 / 0.1);
+}
+
+.hermes-command-composer-tools {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.hermes-command-composer-tools > span {
+  color: rgb(190 216 207 / 0.36);
+  font-size: 0.62rem;
+}
+
+.hermes-command-composer-tools button {
+  min-width: auto;
+  border: 1px solid rgb(151 202 187 / 0.16);
+  background: rgb(2 19 20 / 0.6);
+  color: rgb(220 238 230 / 0.74);
+}
+
+.hermes-command-composer-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.hermes-command-composer-actions > button:last-child {
+  min-width: 6rem;
+  border-color: rgb(247 183 50 / 0.48);
+  background: linear-gradient(135deg, #8d5e05, #b7790b);
+  color: #fff0bd;
+}
+
+.hermes-command-composer-actions button.hermes-command-stop {
+  min-width: 5.25rem;
+  border-color: rgb(244 108 92 / 0.44);
+  background: rgb(124 36 30 / 0.18);
+  color: #f4a398;
+}
+
+.hermes-command-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.hermes-command-attachments > span {
+  display: inline-flex;
+  max-width: min(100%, 22rem);
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.36rem 0.48rem;
+  border: 1px solid rgb(247 183 50 / 0.24);
+  border-radius: 0.42rem;
+  background: rgb(247 183 50 / 0.06);
+  color: #e6d298;
+  font-size: 0.68rem;
+}
+
+.hermes-command-attachments > span > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-command-attachments button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  padding: 0.1rem;
+  border-radius: 999px;
+  color: rgb(230 210 152 / 0.6);
+}
+
+.hermes-command-attachments button:hover {
+  color: #fff0bd;
+  background: rgb(255 255 255 / 0.08);
+}
+
+.hermes-command-upload-error {
+  margin-bottom: 0.45rem;
+  color: #f0a89e;
+  font-size: 0.68rem;
+}
+
+@media (max-width: 760px) {
+  .hermes-command-view-switch button {
+    padding-inline: 0.4rem;
+  }
+
+  .hermes-command-message.is-user,
+  .hermes-command-message.is-assistant,
+  .hermes-command-message.is-tool {
+    max-width: 96%;
+    margin-inline: 0;
+  }
+
+  .hermes-command-conversation-viewport {
+    padding-inline: 0.55rem;
+  }
+
+  .hermes-command-composer {
+    margin-inline: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hermes-command-composer-tools > span {
+    display: none;
+  }
+
+  .hermes-command-composer-footer {
+    align-items: flex-end;
+  }
+
+  .hermes-command-composer-tools button span:last-child {
+    display: none;
+  }
+}
+
+/* ================================================================== */
+/* Hermes Max v2 — Command Center                                     */
+/* ================================================================== */
+
+[data-hermes-max="true"] {
+  --hermes-command-gold: #f2b94b;
+  --hermes-command-gold-soft: rgb(242 185 75 / 0.14);
+  --hermes-command-green: #42d392;
+  --hermes-command-cyan: #56cfe1;
+  --hermes-command-surface: rgb(6 31 34 / 0.88);
+  --hermes-command-surface-2: rgb(8 39 42 / 0.82);
+  --hermes-command-border: rgb(151 202 187 / 0.14);
+  --hermes-command-text: #f2e9dc;
+  background:
+    radial-gradient(circle at 58% -24%, rgb(56 189 166 / 0.15), transparent 34rem),
+    radial-gradient(circle at 92% 104%, rgb(242 185 75 / 0.08), transparent 32rem),
+    linear-gradient(135deg, #031416 0%, #061f22 56%, #041719 100%);
+}
+
+.hermes-max-sidebar {
+  width: 17rem !important;
+  border-right: 1px solid var(--hermes-command-border) !important;
+  background:
+    linear-gradient(180deg, rgb(8 42 43 / 0.98), rgb(3 24 26 / 0.98)) !important;
+  box-shadow: 18px 0 52px rgb(0 0 0 / 0.28);
+}
+
+.hermes-max-sidebar nav {
+  padding: 0.8rem 0.65rem;
+}
+
+.hermes-max-sidebar nav a {
+  min-height: 2.65rem;
+  margin-block: 0.12rem;
+  border: 1px solid transparent;
+  border-radius: 0.65rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.035em;
+}
+
+.hermes-max-sidebar nav a[aria-current="page"] {
+  border-color: rgb(242 185 75 / 0.28);
+  background: linear-gradient(90deg, rgb(242 185 75 / 0.17), rgb(242 185 75 / 0.055));
+  color: #ffdb91;
+  box-shadow: inset 3px 0 0 var(--hermes-command-gold);
+}
+
+.hermes-command-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.hermes-command-brand-mark {
+  display: grid;
+  width: 2.2rem;
+  height: 2.2rem;
+  place-items: center;
+  border: 1px solid rgb(242 185 75 / 0.34);
+  border-radius: 0.65rem;
+  background: linear-gradient(145deg, rgb(242 185 75 / 0.16), rgb(242 185 75 / 0.04));
+  color: var(--hermes-command-gold);
+  box-shadow: 0 0 1.4rem rgb(242 185 75 / 0.1);
+}
+
+.hermes-command-brand-title {
+  color: #ffe2a4 !important;
+  font-size: 0.94rem !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.13em !important;
+}
+
+.hermes-command-brand-subtitle {
+  display: block;
+  margin-top: 0.28rem;
+  color: rgb(207 225 218 / 0.56);
+  font-size: 0.57rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hermes-command-mobile-brand {
+  display: flex;
+  flex-direction: column;
+  color: #ffe2a4;
+  font-size: 0.78rem;
+  letter-spacing: 0.09em;
+}
+
+.hermes-command-mobile-brand span {
+  color: rgb(207 225 218 / 0.58);
+  font-size: 0.53rem;
+  text-transform: uppercase;
+}
+
+.hermes-max-main {
+  padding: 1rem 1.1rem 0 !important;
+  background:
+    linear-gradient(rgb(255 255 255 / 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.018) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.hermes-max-chat-page {
+  gap: 0.7rem;
+}
+.hermes-max-chat-toolbar {
+  min-height: 3.25rem;
+  border-color: var(--hermes-command-border);
+  border-radius: 0.75rem;
+  background: linear-gradient(90deg, rgb(8 42 45 / 0.9), rgb(6 31 34 / 0.84));
+  box-shadow: 0 10px 26px rgb(0 0 0 / 0.14);
+}
+
+.hermes-max-chat-title {
+  color: #f3eadf;
+  font-size: 0.92rem;
+}
+
+.hermes-max-terminal {
+  padding: 0 !important;
+  border-color: rgb(242 185 75 / 0.2) !important;
+  border-radius: 0.85rem !important;
+  background: #020a0b !important;
+}
+
+.hermes-command-terminal-bar {
+  display: grid;
+  height: 2.45rem;
+  flex: 0 0 auto;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 0.8rem;
+  border-bottom: 1px solid rgb(242 185 75 / 0.12);
+  background: linear-gradient(180deg, rgb(13 41 42 / 0.96), rgb(6 24 26 / 0.96));
+  color: rgb(224 232 228 / 0.58);
+  font: 600 0.64rem/1 var(--theme-font-mono);
+  letter-spacing: 0.07em;
+}
+
+.hermes-command-terminal-dot {
+  display: inline-block;
+  width: 0.48rem;
+  height: 0.48rem;
+  margin-right: 0.28rem;
+  border-radius: 50%;
+}
+
+.hermes-command-terminal-dot.is-red { background: #ef6a65; }
+.hermes-command-terminal-dot.is-amber { background: #e8b35b; }
+.hermes-command-terminal-dot.is-green { background: #4bc990; }
+
+.hermes-command-terminal-state {
+  justify-self: end;
+  color: #62dfa4;
+  font-size: 0.59rem;
+  letter-spacing: 0.14em;
+}
+
+/* Resume long sessions without showing xterm race through the backlog. */
+.hermes-max-xterm-hydrating .xterm {
+  opacity: 0;
+}
+
+.hermes-max-resume-overlay {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(20, 184, 166, 0.12), transparent 36%),
+    #020706;
+}
+
+.hermes-max-resume-overlay > div {
+  border-color: rgba(244, 190, 72, 0.36) !important;
+  background: rgba(3, 16, 14, 0.96) !important;
+  color: #f7d47c !important;
+}
+
+.hermes-max-xterm {
+  padding: 0.7rem 0.72rem 0.5rem;
+}
+
+.hermes-max-chat-rail {
+  width: 21.5rem !important;
+  padding: 0 !important;
+  border-color: var(--hermes-command-border);
+  border-radius: 0.85rem;
+  background: linear-gradient(180deg, rgb(8 39 42 / 0.96), rgb(4 26 29 / 0.94));
+  box-shadow: 0 18px 42px rgb(0 0 0 / 0.25);
+}
+
+.hermes-command-rail-heading {
+  display: flex;
+  min-height: 3.6rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.7rem 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--hermes-command-border);
+}
+
+.hermes-command-rail-heading span,
+.hermes-command-rail-label {
+  display: block;
+  color: var(--hermes-command-gold);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hermes-command-rail-heading strong {
+  display: block;
+  margin-top: 0.16rem;
+  color: #f0e9de;
+  font-size: 0.83rem;
+}
+
+.hermes-command-rail-section {
+  padding: 0.7rem;
+  border-bottom: 1px solid var(--hermes-command-border);
+}
+
+.hermes-command-rail-label {
+  margin: 0 0 0.55rem 0.18rem;
+}
+
+.hermes-command-rail-section aside {
+  padding-right: 0;
+}
+
+.hermes-command-rail-section [class*="border"] {
+  border-color: rgb(151 202 187 / 0.13);
+}
+
+.hermes-command-rail-section [class*="bg-"] {
+  backdrop-filter: blur(12px);
+}
+
+.hermes-max-session-row,
+.hermes-max-recent-session,
+.hermes-max-overview-card,
+.hermes-max-session-stats,
+.hermes-max-session-controls {
+  border-color: var(--hermes-command-border) !important;
+  background: linear-gradient(135deg, rgb(9 43 45 / 0.88), rgb(5 27 30 / 0.86)) !important;
+}
+
+.hermes-max-session-row {
+  border-radius: 0.72rem;
+  box-shadow: 0 9px 22px rgb(0 0 0 / 0.12);
+}
+
+@media (max-width: 1360px) {
+  .hermes-max-chat-rail {
+    width: 18.5rem !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hermes-max-sidebar {
+    width: 16rem !important;
+  }}
+
+@media (max-width: 640px) {
+  .hermes-max-main {
+    padding: 0.6rem 0.55rem 0 !important;
+  }}
+
+/* ================================================================== */
+/* Hermes Max v2.3 — Ivory Graphite                                   */
+/* Bright neutral workspace with a dark navigation anchor.            */
+/* ================================================================== */
+
+[data-hermes-max="true"] {
+  --hermes-command-gold: #b68a35;
+  --hermes-command-gold-soft: rgb(182 138 53 / 0.1);
+  --hermes-command-green: #229b67;
+  --hermes-command-cyan: #52565d;
+  --hermes-command-surface: #ffffff;
+  --hermes-command-surface-2: #f7f7f5;
+  --hermes-command-border: #d9dbde;
+  --hermes-command-text: #17181a;
+  background:
+    radial-gradient(circle at 88% -8%, rgb(182 138 53 / 0.08), transparent 30rem),
+    linear-gradient(135deg, #f7f7f4 0%, #f1f1ee 58%, #ececea 100%);
+  color: #17181a;
+}
+
+.hermes-max-sidebar {
+  --midground: #f4f4f1;
+  --midground-base: #f4f4f1;
+  --color-foreground: #f4f4f1;
+  --color-text-primary: #f4f4f1;
+  --color-text-secondary: #b9bcc1;
+  --color-text-tertiary: #858a91;
+  --color-border: rgb(255 255 255 / 0.12);
+  border-right-color: #2a2c30 !important;
+  background: linear-gradient(180deg, #1b1d20, #131416) !important;
+  color: #f4f4f1;
+  box-shadow: 14px 0 34px rgb(17 18 20 / 0.14);
+}
+
+.hermes-max-sidebar nav a {
+  color: #c9cbd0;
+}
+
+.hermes-max-sidebar nav a:hover {
+  background: rgb(255 255 255 / 0.055);
+  color: #ffffff;
+}
+
+.hermes-max-sidebar nav a[aria-current="page"] {
+  border-color: rgb(182 138 53 / 0.38);
+  background: linear-gradient(90deg, rgb(182 138 53 / 0.2), rgb(255 255 255 / 0.04));
+  color: #f2d18c;
+  box-shadow: inset 3px 0 0 #c69a43;
+}
+
+.hermes-command-brand-mark {
+  border-color: rgb(198 154 67 / 0.48);
+  background: rgb(198 154 67 / 0.1);
+  color: #ddb65f;
+  box-shadow: none;
+}
+
+.hermes-command-brand-title,
+.hermes-command-mobile-brand {
+  color: #ffffff !important;
+}
+
+.hermes-command-brand-subtitle,
+.hermes-command-mobile-brand span {
+  color: #92969d;
+}
+
+.hermes-max-main {
+  background:
+    linear-gradient(rgb(23 24 26 / 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(23 24 26 / 0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.hermes-command-chat-empty strong {
+  color: #17181a;
+}
+.hermes-max-chat-toolbar {
+  border-color: #dedfe2;
+  background: rgb(255 255 255 / 0.92);
+  box-shadow: 0 8px 22px rgb(34 35 38 / 0.055);
+}
+
+.hermes-max-chat-title {
+  color: #202226;
+}
+
+.hermes-max-chat-subtitle {
+  color: #74787e;
+}
+
+.hermes-command-view-switch {
+  border-color: #d9dbde;
+  background: #f1f1ee;
+}
+
+.hermes-command-view-switch button {
+  color: #6b6f75;
+}
+
+.hermes-command-view-switch button.is-active {
+  background: #ffffff;
+  color: #8b661f;
+  box-shadow: inset 0 0 0 1px rgb(182 138 53 / 0.42), 0 2px 6px rgb(28 29 32 / 0.06);
+}
+
+.hermes-command-conversation {
+  border-color: #d9dbde;
+  background:
+    radial-gradient(circle at 18% 0%, rgb(182 138 53 / 0.035), transparent 28rem),
+    #fafaf8;
+  box-shadow: 0 16px 42px rgb(34 35 38 / 0.08);
+}
+
+.hermes-command-conversation::before {
+  color: rgb(90 92 96 / 0.35);
+}
+
+.hermes-command-message {
+  border-color: #dadcdf;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgb(35 36 39 / 0.06);
+}
+
+.hermes-command-message.is-assistant {
+  border-color: #d7d8db;
+  background: #ffffff;
+}
+
+.hermes-command-message.is-user {
+  border-color: #27292d;
+  background: linear-gradient(135deg, #24262a, #151619);
+  box-shadow: 0 8px 22px rgb(18 19 21 / 0.14);
+}
+
+.hermes-command-message.is-tool {
+  border-color: #cfd1d5;
+  background: #f1f2ef;
+}
+
+.hermes-command-message > header strong,
+.hermes-command-message-plain,
+.hermes-command-message .text-foreground {
+  color: #24262a;
+}
+
+.hermes-command-message > header time {
+  color: #8a8e94;
+}
+
+.hermes-command-message.is-user > header strong,
+.hermes-command-message.is-user > header time,
+.hermes-command-message.is-user .hermes-command-message-plain,
+.hermes-command-message.is-user .text-foreground {
+  color: #ffffff;
+}
+
+.hermes-command-message.is-user > header time {
+  color: #aeb1b6;
+}
+
+.hermes-command-message-avatar {
+  border-color: rgb(182 138 53 / 0.42);
+  color: #9a7226;
+  background: #faf5e9;
+}
+
+.hermes-command-message.is-user .hermes-command-message-avatar {
+  border-color: #6c7077;
+  color: #ffffff;
+  background: #34363b;
+}
+
+.hermes-command-message pre {
+  border-color: #d5d7da;
+  background: #f2f3f1;
+  color: #292b2f;
+}
+
+.hermes-command-tool-card {
+  border-color: #d5d7da;
+  background: #f5f5f3;
+}
+
+.hermes-command-tool-card summary,
+.hermes-command-tool-card > pre {
+  color: #4c5056;
+}
+
+.hermes-command-tool-success {
+  color: #17764d;
+}
+
+.hermes-command-thinking {
+  border-color: rgb(182 138 53 / 0.28);
+  color: #8b661f;
+  background: #faf5e9;
+}
+
+.hermes-command-thinking,
+.hermes-command-chat-state,
+.hermes-command-chat-empty {
+  color: #71757b;
+}
+
+.hermes-command-composer {
+  border-color: #c9cbd0;
+  background: #ffffff;
+  box-shadow: 0 -8px 26px rgb(34 35 38 / 0.045), 0 10px 24px rgb(34 35 38 / 0.06);
+}
+
+.hermes-command-composer textarea {
+  color: #17181a;
+}
+
+.hermes-command-composer textarea::placeholder {
+  color: #8a8e94;
+}
+
+.hermes-command-composer-footer {
+  border-top-color: #e2e3e5;
+}
+
+.hermes-command-composer-tools > span {
+  color: #8b8f95;
+}
+
+.hermes-command-composer-tools button {
+  border-color: #d7d9dc;
+  background: #f5f5f3;
+  color: #4e5258;
+}
+
+.hermes-command-composer-actions > button:last-child {
+  border-color: #a77925;
+  background: linear-gradient(135deg, #c2953d, #a97820);
+  color: #ffffff;
+}
+
+.hermes-command-composer-actions button.hermes-command-stop {
+  border-color: #d18b83;
+  background: #fff5f3;
+  color: #9c3930;
+}
+
+.hermes-command-attachments > span {
+  border-color: rgb(182 138 53 / 0.3);
+  background: #faf5e9;
+  color: #76571d;
+}
+
+.hermes-command-attachments button {
+  color: #8b6b2d;
+}
+
+.hermes-command-upload-error,
+.hermes-command-chat-state.is-error {
+  color: #aa3f36;
+}
+
+.hermes-max-chat-rail {
+  border-color: #d9dbde;
+  background: linear-gradient(180deg, #ffffff, #f5f5f2);
+  box-shadow: 0 14px 34px rgb(34 35 38 / 0.08);
+}
+
+.hermes-command-rail-heading,
+.hermes-command-rail-section {
+  border-color: #dedfe2;
+}
+
+.hermes-command-rail-heading strong {
+  color: #202226;
+}
+
+.hermes-command-rail-heading span,
+.hermes-command-rail-label {
+  color: #956c20;
+}
+
+.hermes-command-rail-section [class*="border"] {
+  border-color: #d9dbde;
+}
+
+.hermes-max-session-row,
+.hermes-max-recent-session,
+.hermes-max-overview-card,
+.hermes-max-session-stats,
+.hermes-max-session-controls {
+  border-color: #d9dbde !important;
+  background: linear-gradient(135deg, #ffffff, #f7f7f5) !important;
+  color: #24262a;
+  box-shadow: 0 8px 22px rgb(34 35 38 / 0.055);
+}
+
+.hermes-max-session-row:hover,
+.hermes-max-recent-session:hover {
+  border-color: #b9bbc0 !important;
+  background: #ffffff !important;
+  box-shadow: 0 12px 26px rgb(34 35 38 / 0.085);
+}
+
+.hermes-command-terminal-bar {
+  border-bottom-color: #34363b;
+  background: linear-gradient(180deg, #27292d, #18191c);
+  color: #bfc2c7;
+}
+
+.hermes-max-terminal {
+  border-color: #2f3135 !important;
+  background: #121315 !important;
+  box-shadow: 0 18px 42px rgb(18 19 21 / 0.16) !important;
+}
+
+/* ================================================================== */
+/* Command Center v2.4 — attachments, drop zone, message affordances  */
+/*                                                                    */
+/* Appended last on purpose: these rules land after the Ivory         */
+/* Graphite overrides above, so they can carry the light palette      */
+/* directly instead of needing a second override pass.                */
+/* ================================================================== */
+
+.hermes-command-conversation.is-dropping {
+  border-color: rgb(182 138 53 / 0.55);
+  box-shadow: 0 0 0 2px rgb(182 138 53 / 0.16), 0 16px 42px rgb(34 35 38 / 0.1);
+}
+
+.hermes-command-dropzone {
+  position: absolute;
+  inset: 0.5rem;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border: 2px dashed rgb(182 138 53 / 0.5);
+  border-radius: 0.72rem;
+  background: rgb(250 245 233 / 0.94);
+  color: #7c5c1c;
+  text-align: center;
+  pointer-events: none;
+}
+
+.hermes-command-dropzone strong {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.hermes-command-dropzone span {
+  font-size: 0.72rem;
+  color: #8a7444;
+}
+
+.hermes-command-jump {
+  position: absolute;
+  bottom: 9.5rem;
+  left: 50%;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.7rem;
+  transform: translateX(-50%);
+  border: 1px solid #d3d5d9;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #4a4e54;
+  font-size: 0.72rem;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgb(34 35 38 / 0.14);
+  cursor: pointer;
+}
+
+.hermes-command-jump:hover {
+  border-color: #b9bbc0;
+  color: #202226;
+}
+
+.hermes-command-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  max-width: 34rem;
+}
+
+.hermes-command-suggestions button {
+  padding: 0.42rem 0.7rem;
+  border: 1px solid #dcdee1;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #55595f;
+  font-size: 0.74rem;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.hermes-command-suggestions button:hover {
+  border-color: rgb(182 138 53 / 0.5);
+  color: #7c5c1c;
+}
+
+/* ── Composer attachments ─────────────────────────────────────────── */
+
+.hermes-command-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.55rem;
+}
+
+.hermes-command-attachment {
+  display: inline-flex;
+  max-width: min(100%, 18rem);
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #dcdee1;
+  border-radius: 0.55rem;
+  background: #f8f8f6;
+}
+
+.hermes-command-attachment.is-image {
+  border-color: rgb(182 138 53 / 0.32);
+  background: #faf5e9;
+}
+
+.hermes-command-attachment-thumb {
+  display: grid;
+  width: 2.15rem;
+  height: 2.15rem;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #dcdee1;
+  border-radius: 0.42rem;
+  background: #ffffff;
+  color: #8b6b2d;
+}
+
+.hermes-command-attachment-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hermes-command-attachment-meta {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.hermes-command-attachment-meta strong {
+  overflow: hidden;
+  color: #2a2c30;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-command-attachment-meta em {
+  color: #83878d;
+  font-size: 0.64rem;
+  font-style: normal;
+}
+
+.hermes-command-attachment > button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  padding: 0.15rem;
+  border-radius: 999px;
+  color: #8b8f95;
+  cursor: pointer;
+}
+
+.hermes-command-attachment > button:hover {
+  background: rgb(34 35 38 / 0.07);
+  color: #2a2c30;
+}
+
+.hermes-command-upload-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.45rem;
+  color: #8b661f;
+  font-size: 0.7rem;
+}
+
+.hermes-command-upload-error {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid rgb(170 63 54 / 0.28);
+  border-radius: 0.5rem;
+  background: #fff5f3;
+  color: #aa3f36;
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.hermes-command-upload-error > span {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hermes-command-upload-error > button {
+  flex: 0 0 auto;
+  padding: 0.15rem;
+  border-radius: 999px;
+  color: rgb(170 63 54 / 0.7);
+  cursor: pointer;
+}
+
+.hermes-command-upload-error > button:hover {
+  background: rgb(170 63 54 / 0.1);
+  color: #8d2e26;
+}
+
+/* ── Message affordances ──────────────────────────────────────────── */
+
+.hermes-command-message > header {
+  gap: 0.5rem;
+}
+
+.hermes-command-message-copy {
+  margin-left: auto;
+  display: inline-flex;
+  flex: 0 0 auto;
+  padding: 0.2rem;
+  border-radius: 0.35rem;
+  color: #9a9ea4;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 120ms ease, color 120ms ease;
+}
+
+.hermes-command-message:hover .hermes-command-message-copy,
+.hermes-command-message-copy:focus-visible {
+  opacity: 1;
+}
+
+.hermes-command-message-copy:hover {
+  background: rgb(34 35 38 / 0.07);
+  color: #2a2c30;
+}
+
+.hermes-command-message.is-user .hermes-command-message-copy {
+  color: rgb(255 255 255 / 0.55);
+}
+
+.hermes-command-message.is-user .hermes-command-message-copy:hover {
+  background: rgb(255 255 255 / 0.14);
+  color: #ffffff;
+}
+
+.hermes-command-message-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.hermes-command-message-files > span {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.24rem 0.45rem;
+  border: 1px solid #dcdee1;
+  border-radius: 0.4rem;
+  background: #f6f6f4;
+  color: #55595f;
+  font-size: 0.68rem;
+}
+
+.hermes-command-message-files > span > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-command-message.is-user .hermes-command-message-files > span {
+  border-color: rgb(255 255 255 / 0.22);
+  background: rgb(255 255 255 / 0.1);
+  color: rgb(255 255 255 / 0.86);
+}
+
+.hermes-command-composer textarea {
+  min-height: 3.2rem;
+  max-height: 16rem;
+  resize: none;
+  overflow-y: auto;
+}
+
+@media (max-width: 760px) {
+  .hermes-command-jump {
+    bottom: 11rem;
+  }
+
+  .hermes-command-attachment {
+    max-width: 100%;
+  }
+}
+
+/* ── Ảnh Hermes tạo ra, hiển thị thẳng trong tin nhắn ─────────────── */
+
+.hermes-command-image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+}
+
+.hermes-command-image {
+  display: flex;
+  max-width: 100%;
+  margin: 0;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.hermes-command-image > button {
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #dcdee1;
+  border-radius: 0.6rem;
+  background: #ffffff;
+  cursor: zoom-in;
+  line-height: 0;
+  box-shadow: 0 6px 18px rgb(35 36 39 / 0.08);
+  transition: border-color 120ms ease;
+}
+
+.hermes-command-image > button:hover {
+  border-color: rgb(182 138 53 / 0.5);
+}
+
+.hermes-command-image img {
+  display: block;
+  max-width: min(100%, 22rem);
+  max-height: 15rem;
+  object-fit: contain;
+}
+
+.hermes-command-image.is-expanded > button {
+  cursor: zoom-out;
+}
+
+.hermes-command-image.is-expanded img {
+  max-width: min(100%, 46rem);
+  max-height: 42rem;
+}
+
+.hermes-command-image figcaption {
+  overflow: hidden;
+  max-width: 22rem;
+  color: #83878d;
+  font-size: 0.64rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-command-image-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1.4rem 1.6rem;
+  border: 1px dashed #d9dbde;
+  border-radius: 0.6rem;
+  color: #83878d;
+  font-size: 0.7rem;
+}
+
+.hermes-command-image-missing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px dashed #d9dbde;
+  border-radius: 0.45rem;
+  color: #83878d;
+  font-size: 0.68rem;
+}
+
+.hermes-command-message.is-user .hermes-command-image figcaption,
+.hermes-command-message.is-user .hermes-command-image-missing {
+  color: rgb(255 255 255 / 0.66);
+}
+
+/* ── Bảng lệnh "/" ────────────────────────────────────────────────── */
+
+.hermes-command-palette {
+  margin-bottom: 0.55rem;
+  overflow: hidden;
+  border: 1px solid #d9dbde;
+  border-radius: 0.6rem;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgb(34 35 38 / 0.1);
+}
+
+.hermes-command-palette-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid #e6e7ea;
+  background: #f7f7f5;
+  color: #8b6b2d;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hermes-command-palette-head > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #9a9ea4;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.hermes-command-palette-list {
+  max-height: 15rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.hermes-command-palette-list button {
+  display: grid;
+  width: 100%;
+  align-items: baseline;
+  gap: 0.1rem 0.6rem;
+  grid-template-columns: minmax(6rem, auto) 1fr auto;
+  padding: 0.42rem 0.6rem;
+  border-bottom: 1px solid #f1f2f0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hermes-command-palette-list button:last-child {
+  border-bottom: 0;
+}
+
+.hermes-command-palette-list button.is-active {
+  background: #faf5e9;
+}
+
+.hermes-command-palette-name {
+  color: #8b661f;
+  font: 600 0.76rem/1.35 var(--theme-font-mono);
+  white-space: nowrap;
+}
+
+.hermes-command-palette-name em {
+  margin-left: 0.3rem;
+  color: #a9adb3;
+  font-style: normal;
+  font-size: 0.68rem;
+}
+
+.hermes-command-palette-desc {
+  overflow: hidden;
+  min-width: 0;
+  color: #55595f;
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-command-palette-cat {
+  color: #a2a6ac;
+  font-size: 0.6rem;
+  white-space: nowrap;
+}
+
+/* Commands the gateway advertised that the baked list never had — a newer
+   Hermes, a plugin, a quick command, a skill. Worth pointing at, quietly. */
+.hermes-command-new {
+  margin-left: 0.35rem;
+  padding: 0 0.3rem;
+  border: 1px solid rgba(178, 138, 74, 0.45);
+  border-radius: 999px;
+  background: rgba(178, 138, 74, 0.12);
+  color: #b28a4a;
+  font-size: 0.58rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+}
+
+.hermes-command-hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #e6e7ea;
+  border-radius: 0.5rem;
+  background: #f7f7f5;
+  color: #6b6f75;
+  font-size: 0.7rem;
+}
+
+.hermes-command-hint-name {
+  color: #8b661f;
+  font: 600 0.72rem/1.3 var(--theme-font-mono);
+}
+
+.hermes-command-hint strong {
+  color: #8b661f;
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .hermes-command-palette-list button {
+    grid-template-columns: 1fr;
+  }
+
+  .hermes-command-palette-cat {
+    display: none;
+  }
+
+  .hermes-command-palette-desc {
+    white-space: normal;
+  }
+}
+
+/* ── Bảng "Chi tiết lệnh Hermes" ──────────────────────────────────── */
+
+.hermes-command-reference {
+  position: absolute;
+  inset: 0.6rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #d3d5d9;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgb(28 29 32 / 0.22);
+}
+
+.hermes-command-reference > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid #e6e7ea;
+  background: linear-gradient(180deg, #ffffff, #faf9f6);
+}
+
+.hermes-command-reference > header strong {
+  display: block;
+  color: #202226;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.hermes-command-reference > header span {
+  color: #83878d;
+  font-size: 0.68rem;
+}
+
+.hermes-command-reference > header button {
+  flex: 0 0 auto;
+  padding: 0.25rem;
+  border-radius: 0.4rem;
+  color: #83878d;
+  cursor: pointer;
+}
+
+.hermes-command-reference > header button:hover {
+  background: rgb(34 35 38 / 0.07);
+  color: #202226;
+}
+
+.hermes-command-reference-search {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0.6rem 0.85rem 0.2rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #d9dbde;
+  border-radius: 0.55rem;
+  background: #f8f8f6;
+  color: #83878d;
+}
+
+.hermes-command-reference-search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #24262a;
+  font-size: 0.78rem;
+}
+
+.hermes-command-reference-search button {
+  flex: 0 0 auto;
+  padding: 0.1rem;
+  border-radius: 999px;
+  color: #9a9ea4;
+  cursor: pointer;
+}
+
+.hermes-command-reference-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.35rem 0.85rem 0.9rem;
+}
+
+.hermes-command-reference-body h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0.75rem 0 0.35rem;
+  padding: 0.3rem 0;
+  background: #ffffff;
+  color: #8b8f95;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hermes-command-reference-body h3 em {
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  background: #f1f1ee;
+  color: #9a9ea4;
+  font-size: 0.6rem;
+  font-style: normal;
+  letter-spacing: 0;
+}
+
+.hermes-command-reference-body section.is-common h3 {
+  color: #8b661f;
+}
+
+.hermes-command-reference-body section.is-common h3 em {
+  background: #faf0da;
+  color: #8b661f;
+}
+
+.hermes-command-reference-row {
+  display: grid;
+  width: 100%;
+  gap: 0.1rem 0.7rem;
+  grid-template-columns: minmax(8rem, 13rem) 1fr;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hermes-command-reference-row:hover {
+  border-color: #e2e3e5;
+  background: #f8f8f6;
+}
+
+.hermes-command-reference-row.is-common {
+  border-color: rgb(182 138 53 / 0.24);
+  background: #fefbf4;
+}
+
+.hermes-command-reference-row.is-common:hover {
+  border-color: rgb(182 138 53 / 0.5);
+  background: #faf5e9;
+}
+
+.hermes-command-reference-name {
+  color: #55595f;
+  font: 600 0.78rem/1.45 var(--theme-font-mono);
+  word-break: break-word;
+}
+
+.hermes-command-reference-row.is-common .hermes-command-reference-name {
+  color: #8b661f;
+}
+
+.hermes-command-reference-name em {
+  display: block;
+  color: #a2a6ac;
+  font-size: 0.64rem;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.hermes-command-reference-vi {
+  color: #33363b;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.hermes-command-reference-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  grid-column: 2;
+  color: #9a9ea4;
+  font-size: 0.64rem;
+}
+
+.hermes-command-reference-meta code {
+  font-family: var(--theme-font-mono);
+}
+
+.hermes-command-reference-meta b {
+  color: #8b661f;
+  font-weight: 600;
+}
+
+.hermes-command-reference-empty {
+  margin: 1.5rem 0;
+  color: #83878d;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .hermes-command-reference {
+    inset: 0.35rem;
+  }
+
+  .hermes-command-reference-row {
+    grid-template-columns: 1fr;
+  }
+
+  .hermes-command-reference-meta {
+    grid-column: 1;
+  }
+}
+
+/* ── Bong bóng đang trả lời trực tiếp ─────────────────────────────── */
+
+.hermes-command-message.is-live {
+  border-color: rgb(182 138 53 / 0.34);
+  background: linear-gradient(180deg, #fffdf8, #ffffff);
+}
+
+.hermes-command-live-badge {
+  margin-left: auto;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid rgb(182 138 53 / 0.3);
+  border-radius: 999px;
+  background: #faf5e9;
+  color: #8b661f;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.hermes-command-live-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  color: #8b8f95;
+  font-size: 0.7rem;
+}
+
+.hermes-command-live-error {
+  margin-top: 0.5rem;
+  color: #aa3f36;
+  font-size: 0.74rem;
+}
+
+/* Con trỏ nhấp nháy ở cuối dòng đang viết. */
+.hermes-command-message.is-live .text-foreground > :last-child::after,
+.hermes-command-message.is-live p:last-of-type::after {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.95em;
+  margin-left: 0.15rem;
+  translate: 0 0.15em;
+  background: rgb(182 138 53 / 0.75);
+  animation: hermes-caret 1s steps(1) infinite;
+}
+
+@keyframes hermes-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hermes-command-message.is-live .text-foreground > :last-child::after,
+  .hermes-command-message.is-live p:last-of-type::after {
+    animation: none;
+  }
+}
+
+/* ── Khối công cụ gọn như Terminal ────────────────────────────────── */
+
+.hermes-command-tools {
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 92%;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #e0e1e4;
+  border-radius: 0.6rem;
+  background: #fbfbf9;
+}
+
+.hermes-command-tools-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #8b8f95;
+  font-size: 0.7rem;
+}
+
+.hermes-command-tools-head strong {
+  color: #55595f;
+  font-weight: 600;
+}
+
+.hermes-command-tools-running,
+.hermes-command-tools-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+  font-size: 0.65rem;
+}
+
+.hermes-command-tools-running {
+  color: #8b661f;
+}
+
+.hermes-command-tools-done {
+  color: #17764d;
+}
+
+.hermes-command-tool-row {
+  margin-top: 0.2rem;
+}
+
+.hermes-command-tool-row > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.1rem;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.hermes-command-tool-row > summary::-webkit-details-marker {
+  display: none;
+}
+
+.hermes-command-tool-row > summary:hover {
+  background: #f2f2ef;
+}
+
+.hermes-command-tool-dot {
+  width: 0.38rem;
+  height: 0.38rem;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: rgb(182 138 53 / 0.75);
+}
+
+.hermes-command-tool-name {
+  flex: 0 0 auto;
+  color: #55595f;
+  font: 600 0.72rem/1.4 var(--theme-font-mono);
+}
+
+.hermes-command-tool-preview {
+  overflow: hidden;
+  min-width: 0;
+  flex: 1 1 auto;
+  color: #9a9ea4;
+  font: 0.68rem/1.4 var(--theme-font-mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-command-tool-row pre {
+  overflow-x: auto;
+  margin: 0.25rem 0 0.35rem 0.8rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #e4e5e8;
+  border-radius: 0.4rem;
+  background: #f4f4f2;
+  color: #4c5056;
+  font-size: 0.66rem;
+  line-height: 1.5;
+  max-height: 16rem;
+  overflow-y: auto;
+}
+
+.hermes-command-tool-result {
+  border-color: #dfe6e1 !important;
+  background: #f5faf7 !important;
+}
+
+.hermes-command-connecting {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid rgb(182 138 53 / 0.26);
+  border-radius: 0.5rem;
+  background: #fdfaf3;
+  color: #8b661f;
+  font-size: 0.7rem;
+}
+
+/* ── Cỡ chữ khung chat (nút "Chữ …%" trên thanh công cụ) ─────────────
+ *
+ * Một biến duy nhất trên gốc trang nhân vào mọi cỡ chữ đọc được trong
+ * khung chat. Chữ mặc định cũng nhích lên cho dễ đọc trên màn rộng.
+ */
+
+.hermes-max-chat-page {
+  --hermes-chat-font: 1.1;
+}
+
+.hermes-command-message-plain,
+.hermes-command-message .text-foreground,
+.hermes-command-message p,
+.hermes-command-message li {
+  font-size: calc(0.86rem * var(--hermes-chat-font, 1));
+  line-height: 1.62;
+}
+
+.hermes-command-message > header strong {
+  font-size: calc(0.76rem * var(--hermes-chat-font, 1));
+}
+
+.hermes-command-message pre,
+.hermes-command-message code {
+  font-size: calc(0.74rem * var(--hermes-chat-font, 1));
+}
+
+.hermes-command-composer textarea {
+  font-size: calc(0.86rem * var(--hermes-chat-font, 1));
+  line-height: 1.55;
+}
+
+.hermes-command-thinking,
+.hermes-command-live-status,
+.hermes-command-chat-empty span {
+  font-size: calc(0.72rem * var(--hermes-chat-font, 1));
+}
+
+.hermes-command-message-files > span,
+.hermes-command-tool-name,
+.hermes-command-tool-preview {
+  font-size: calc(0.7rem * var(--hermes-chat-font, 1));
+}
+
+/* Bề ngang bong bóng giữ nguyên như bản cũ: bó hẹp lại thì trên màn 21:9
+   khung chat trông lọt thỏm giữa hai khoảng trống. */
+
+/* ── Ghi chú runtime của Hermes, rút gọn thành một dòng ───────────── */
+
+.hermes-command-runtime-note {
+  display: flex;
+  align-self: center;
+  max-width: min(92%, 46rem);
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #e2e3e5;
+  border-radius: 999px;
+  background: #f7f7f5;
+  color: #7c8087;
+  font-size: calc(0.68rem * var(--hermes-chat-font, 1));
+}
+
+/* ── Trạng thái luồng trực tiếp ───────────────────────────────────── */
+
+.hermes-command-live-state {
+  position: absolute;
+  top: 0.62rem;
+  right: 0.8rem;
+  z-index: 3;
+  max-width: 60%;
+  overflow: hidden;
+  color: rgb(90 92 96 / 0.5);
+  font: 600 0.58rem/1 var(--theme-font-mono);
+  letter-spacing: 0.06em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Nhãn trang trí cũ nhường chỗ cho trạng thái thật. */
+.hermes-command-conversation::before {
+  content: none;
+}
+
+/* ── Chip trạng thái luồng + tem phiên bản trên thanh công cụ ─────── */
+
+.hermes-max-live-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.5rem;
+  border: 1px solid #dcdee1;
+  border-radius: 999px;
+  background: #f7f7f5;
+  color: #6b6f75;
+  font-size: 0.66rem;
+  white-space: nowrap;
+}
+
+.hermes-max-live-chip.is-live {
+  border-color: rgb(34 155 103 / 0.35);
+  background: #f4fbf7;
+  color: #17764d;
+}
+
+.hermes-max-live-chip.is-error {
+  border-color: rgb(170 63 54 / 0.35);
+  background: #fff5f3;
+  color: #aa3f36;
+}
+
+.hermes-max-live-dot-sm {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.hermes-max-live-chip.is-live .hermes-max-live-dot-sm {
+  animation: hermes-caret 1.4s ease-in-out infinite;
+}
+
+.hermes-max-version {
+  color: #a2a6ac;
+  font: 600 0.62rem/1 var(--theme-font-mono);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ── Nút bật/tắt đồng bộ Terminal ─────────────────────────────────── */
+
+.hermes-max-sync-toggle {
+  border: 1px solid #d9dbde;
+  background: #f7f7f5;
+  color: #6b6f75;
+}
+
+.hermes-max-sync-toggle.is-on {
+  border-color: rgb(34 155 103 / 0.35);
+  background: #f4fbf7;
+  color: #17764d;
+}
+
+/* Dòng chờ ngộ nghĩnh khi tắt đồng bộ. */
+.hermes-command-live-status em {
+  margin-left: 0.45rem;
+  color: #a2a6ac;
+  font-size: 0.92em;
+  font-style: normal;
+}
+
+/* ── Đổi nhanh model thường dùng ──────────────────────────────────── */
+
+.hermes-model-switch {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.hermes-model-switch > button.is-active {
+  border-color: #b28a4a;
+  background: #fdf8ef;
+  color: #7a5a1e;
+}
+
+.hermes-model-switch-current {
+  margin-left: 0.35rem;
+  color: #b28a4a;
+  font: 600 0.62rem/1 var(--theme-font-mono);
+  font-style: normal;
+}
+
+.hermes-model-switch-panel {
+  position: absolute;
+  bottom: calc(100% + 0.45rem);
+  left: 0;
+  z-index: 40;
+  display: flex;
+  width: min(26rem, 78vw);
+  max-height: min(28rem, 60vh);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #d3d5d9;
+  border-radius: 0.7rem;
+  background: #ffffff;
+  box-shadow: 0 18px 44px rgb(34 35 38 / 0.16);
+}
+
+.hermes-model-switch-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid #ececee;
+  background: #faf9f7;
+}
+
+.hermes-model-switch-panel header strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #3a3d42;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.hermes-model-switch-panel header strong svg {
+  color: #b28a4a;
+}
+
+.hermes-model-switch-panel header button {
+  display: inline-flex;
+  padding: 0.15rem;
+  border-radius: 0.3rem;
+  color: #8b8f95;
+}
+
+.hermes-model-switch-panel header button:hover {
+  background: #eceded;
+  color: #3a3d42;
+}
+
+.hermes-model-switch-list {
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+}
+
+.hermes-model-switch-list li {
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+}
+
+.hermes-model-switch-list li > button:first-child {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.45rem;
+  color: #3a3d42;
+  font-size: 0.74rem;
+  text-align: left;
+}
+
+.hermes-model-switch-list li > button:first-child:hover:not(:disabled) {
+  background: #f4f5f6;
+}
+
+.hermes-model-switch-list li > button:first-child:disabled {
+  opacity: 0.55;
+}
+
+.hermes-model-switch-list li > button.is-current {
+  background: #f4fbf7;
+  color: #17764d;
+}
+
+.hermes-model-switch-name {
+  overflow: hidden;
+  flex: 0 1 auto;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-model-switch-id {
+  overflow: hidden;
+  min-width: 0;
+  flex: 1;
+  color: #9a9ea4;
+  font: 400 0.62rem/1 var(--theme-font-mono);
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-model-switch-remove {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.3rem;
+  border-radius: 0.4rem;
+  color: #b9bcc1;
+}
+
+.hermes-model-switch-remove:hover {
+  background: #fdf1ef;
+  color: #9c3930;
+}
+
+.hermes-model-switch-empty {
+  margin: 0;
+  padding: 0.75rem 0.7rem;
+  color: #8b8f95;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.hermes-model-switch-add {
+  padding: 0.5rem 0.6rem 0.6rem;
+  border-top: 1px solid #ececee;
+  background: #fbfbfa;
+}
+
+.hermes-model-switch-add label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.15rem 0.15rem 0.45rem;
+  border: 1px solid #d7d9dc;
+  border-radius: 0.5rem;
+  background: #ffffff;
+}
+
+.hermes-model-switch-add label svg {
+  flex: 0 0 auto;
+  color: #9a9ea4;
+}
+
+.hermes-model-switch-add input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: #17181a;
+  font-size: 0.72rem;
+  outline: none;
+}
+
+.hermes-model-switch-add input::placeholder {
+  color: #a2a6ac;
+}
+
+.hermes-model-switch-add-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.4rem;
+  color: #7a5a1e;
+  font-size: 0.66rem;
+}
+
+.hermes-model-switch-add-current:hover {
+  text-decoration: underline;
+}
+
+.hermes-model-switch-note {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0.45rem 0 0;
+  color: #8b8f95;
+  font-size: 0.65rem;
+  line-height: 1.45;
+}
+
+.hermes-model-switch-options {
+  display: flex;
+  max-height: 8.5rem;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  gap: 0.3rem;
+  margin-top: 0.45rem;
+}
+
+.hermes-model-switch-options button {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid #dedfe2;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #4e5258;
+  font-size: 0.66rem;
+}
+
+.hermes-model-switch-options button:hover:not(:disabled) {
+  border-color: #b28a4a;
+  background: #fdf8ef;
+  color: #7a5a1e;
+}
+
+.hermes-model-switch-options button:disabled {
+  opacity: 0.4;
+}
+
+.hermes-model-switch-options button em {
+  color: #a2a6ac;
+  font-size: 0.58rem;
+  font-style: normal;
+}
+
+.hermes-model-switch-panel footer {
+  padding: 0.4rem 0.6rem;
+  border-top: 1px solid #ececee;
+  background: #f7f7f5;
+  color: #4e5258;
+  font-size: 0.66rem;
+}
+
+@media (max-width: 720px) {
+  .hermes-model-switch-panel {
+    left: auto;
+    right: 0;
+    width: min(22rem, 90vw);
+  }
+}
+
+/* Cảnh báo model đắt tiền — cùng một cổng chặn mà bảng điều khiển dùng. */
+.hermes-model-switch-confirm {
+  padding: 0.5rem 0.6rem;
+  border-top: 1px solid #f0e2c6;
+  background: #fdf8ef;
+}
+
+.hermes-model-switch-confirm p {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin: 0 0 0.45rem;
+  color: #7a5a1e;
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.hermes-model-switch-confirm p svg {
+  flex: 0 0 auto;
+  margin-top: 0.1rem;
+}
+
+.hermes-model-switch-confirm > div {
+  display: flex;
+  gap: 0.35rem;
+}
+
+/* ── Quyền & phê duyệt ────────────────────────────────────────────── */
+
+.hermes-permissions-card {
+  padding: 0 !important;
+}
+
+.hermes-permissions-card button {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: inherit;
+  text-align: left;
+}
+
+.hermes-permissions-card button:hover {
+  background: #f7f7f5;
+}
+
+.hermes-permissions-card-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #8b8f95;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+}
+
+.hermes-permissions-card-body {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.hermes-permissions-card-body strong {
+  color: #17181a;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.hermes-permissions-card-body em {
+  color: #8b8f95;
+  font-size: 0.66rem;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.hermes-permissions-card-body em.is-risky {
+  color: #9c3930;
+  font-weight: 600;
+}
+
+.hermes-permissions {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  width: min(46rem, 94vw);
+  max-height: min(46rem, 88vh);
+  flex-direction: column;
+  overflow: hidden;
+  margin: auto;
+  border: 1px solid #d3d5d9;
+  border-radius: 0.85rem;
+  background: #ffffff;
+  box-shadow: 0 26px 70px rgb(34 35 38 / 0.24);
+}
+
+.hermes-permissions > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid #ececee;
+  background: #faf9f7;
+}
+
+.hermes-permissions > header strong {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #23252a;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.hermes-permissions > header strong svg {
+  color: #17764d;
+}
+
+.hermes-permissions > header span {
+  display: block;
+  margin-top: 0.15rem;
+  color: #8b8f95;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.hermes-permissions > header button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  padding: 0.2rem;
+  border-radius: 0.35rem;
+  color: #8b8f95;
+}
+
+.hermes-permissions > header button:hover {
+  background: #eceded;
+  color: #23252a;
+}
+
+.hermes-permissions-body {
+  overflow-y: auto;
+  padding: 0.25rem 0.9rem 0;
+}
+
+.hermes-permissions-loading,
+.hermes-permissions-empty,
+.hermes-permissions-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.6rem 0;
+  color: #8b8f95;
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.hermes-permissions-hint {
+  display: block;
+  padding-top: 0;
+}
+
+.hermes-permissions-hint code,
+.hermes-permissions footer code {
+  padding: 0 0.2rem;
+  border-radius: 0.2rem;
+  background: #f0f0ee;
+  color: #4e5258;
+  font-size: 0.92em;
+}
+
+.hermes-permissions-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0.9rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #e5b4ad;
+  border-radius: 0.5rem;
+  background: #fff5f3;
+  color: #9c3930;
+  font-size: 0.74rem;
+}
+
+.hermes-permissions-body section {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid #f0f0ee;
+}
+
+.hermes-permissions-body section:last-of-type {
+  border-bottom: 0;
+}
+
+.hermes-permissions-body h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin: 0 0 0.5rem;
+  color: #3a3d42;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.hermes-permissions-body h3 em {
+  color: #a2a6ac;
+  font-size: 0.66rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.hermes-permissions-modes {
+  display: grid;
+  gap: 0.35rem;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+}
+
+.hermes-permissions-modes button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #dedfe2;
+  border-radius: 0.55rem;
+  background: #ffffff;
+  text-align: left;
+}
+
+.hermes-permissions-modes button:hover:not(:disabled) {
+  border-color: #b9bcc1;
+}
+
+.hermes-permissions-modes button span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #3a3d42;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.hermes-permissions-modes button em {
+  color: #8b8f95;
+  font-size: 0.66rem;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.hermes-permissions-modes button.is-active {
+  border-color: #17764d;
+  background: #f4fbf7;
+}
+
+.hermes-permissions-modes button.is-active span {
+  color: #17764d;
+}
+
+.hermes-permissions-modes button.is-active.is-risky {
+  border-color: #c0564a;
+  background: #fff5f3;
+}
+
+.hermes-permissions-modes button.is-active.is-risky span {
+  color: #9c3930;
+}
+
+.hermes-permissions-warn {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #e8cdb1;
+  border-radius: 0.45rem;
+  background: #fdf6ec;
+  color: #8a5a1a;
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.hermes-permissions-warn svg {
+  flex: 0 0 auto;
+  margin-top: 0.12rem;
+}
+
+.hermes-permissions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-permissions-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #e6e7e9;
+  border-left: 3px solid #b9bcc1;
+  border-radius: 0.5rem;
+  background: #fcfcfb;
+}
+
+.hermes-permissions-list li.is-critical {
+  border-left-color: #c0564a;
+}
+
+.hermes-permissions-list li.is-high {
+  border-left-color: #c2953d;
+}
+
+.hermes-permissions-list li.is-medium {
+  border-left-color: #8b8f95;
+}
+
+.hermes-permissions-list li > div {
+  min-width: 0;
+}
+
+.hermes-permissions-risk {
+  display: block;
+  color: #8b8f95;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.hermes-permissions-list li.is-critical .hermes-permissions-risk {
+  color: #9c3930;
+}
+
+.hermes-permissions-list li.is-high .hermes-permissions-risk {
+  color: #8a5a1a;
+}
+
+.hermes-permissions-list li p {
+  margin: 0.15rem 0;
+  color: #23252a;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.hermes-permissions-list li code {
+  color: #9a9ea4;
+  font: 400 0.62rem/1.4 var(--theme-font-mono);
+  overflow-wrap: anywhere;
+}
+
+.hermes-permissions-confirm {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.3rem;
+}
+
+.hermes-permissions-deny {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-permissions-deny li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #e5b4ad;
+  border-radius: 0.45rem;
+  background: #fff5f3;
+}
+
+.hermes-permissions-deny li svg {
+  flex: 0 0 auto;
+  color: #9c3930;
+}
+
+.hermes-permissions-deny li code {
+  min-width: 0;
+  flex: 1;
+  color: #7a2c25;
+  font: 500 0.7rem/1.4 var(--theme-font-mono);
+  overflow-wrap: anywhere;
+}
+
+.hermes-permissions-deny li button {
+  display: inline-flex;
+  padding: 0.15rem;
+  border-radius: 0.3rem;
+  color: #c0847c;
+}
+
+.hermes-permissions-deny li button:hover {
+  background: #fbe3df;
+  color: #9c3930;
+}
+
+.hermes-permissions-add {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.15rem 0.15rem 0.5rem;
+  border: 1px solid #d7d9dc;
+  border-radius: 0.5rem;
+  background: #ffffff;
+}
+
+.hermes-permissions-add svg {
+  flex: 0 0 auto;
+  color: #9a9ea4;
+}
+
+.hermes-permissions-add input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: #17181a;
+  font: 400 0.74rem/1.4 var(--theme-font-mono);
+  outline: none;
+}
+
+.hermes-permissions-add input::placeholder {
+  color: #a2a6ac;
+  font-family: inherit;
+}
+
+.hermes-permissions footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid #ececee;
+  background: #ffffff;
+  color: #6b6f75;
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.hermes-permissions footer span {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+@media (max-width: 640px) {
+  .hermes-permissions-list li {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+  }
+}
+
+/* ── Hộp xin quyền, ngay trong khung chat ─────────────────────────── */
+
+.hermes-approval {
+  margin-bottom: 0.55rem;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid #e8cdb1;
+  border-left: 3px solid #c2953d;
+  border-radius: 0.6rem;
+  background: #fdf8ef;
+}
+
+.hermes-approval.is-critical {
+  border-color: #e5b4ad;
+  border-left-color: #c0564a;
+  background: #fff5f3;
+}
+
+.hermes-approval-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.hermes-approval-head > svg {
+  flex: 0 0 auto;
+  margin-top: 0.1rem;
+  color: #8a5a1a;
+}
+
+.hermes-approval.is-critical .hermes-approval-head > svg {
+  color: #9c3930;
+}
+
+.hermes-approval-head strong {
+  display: block;
+  color: #23252a;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.hermes-approval-head p {
+  margin: 0.2rem 0 0;
+  color: #4e5258;
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.hermes-approval-command {
+  overflow-x: auto;
+  max-height: 14rem;
+  margin: 0.55rem 0 0;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid rgb(34 35 38 / 0.08);
+  border-radius: 0.45rem;
+  background: #ffffff;
+}
+
+.hermes-approval-command code {
+  color: #23252a;
+  font: 400 0.72rem/1.6 var(--theme-font-mono);
+  white-space: pre;
+}
+
+.hermes-approval-command span {
+  display: block;
+  margin-top: 0.3rem;
+  color: #9a9ea4;
+  font-size: 0.66rem;
+}
+
+.hermes-approval-origin {
+  margin: 0.4rem 0 0;
+  color: #8b8f95;
+  font-size: 0.66rem;
+  line-height: 1.5;
+}
+
+.hermes-approval-choices {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+}
+
+.hermes-approval-choices button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #d7d9dc;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  text-align: left;
+}
+
+.hermes-approval-choices button:hover:not(:disabled) {
+  border-color: #17764d;
+  background: #f4fbf7;
+}
+
+.hermes-approval-choices button:disabled {
+  opacity: 0.55;
+}
+
+.hermes-approval-choices button span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #23252a;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.hermes-approval-choices button em {
+  color: #8b8f95;
+  font-size: 0.64rem;
+  font-style: normal;
+  line-height: 1.45;
+}
+
+.hermes-approval-choices button.is-always:hover:not(:disabled) {
+  border-color: #b28a4a;
+  background: #fdf8ef;
+}
+
+.hermes-approval-choices button.is-deny:hover:not(:disabled) {
+  border-color: #c0564a;
+  background: #fff5f3;
+}
+
+.hermes-approval-choices button.is-deny span {
+  color: #9c3930;
+}
+
+.hermes-approval-note {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.5rem;
+  color: #6b6f75;
+  font-size: 0.7rem;
+}
+
+/* Bộ canh chừng của Hermes báo lượt này không nhúc nhích (v0.21.0). */
+.hermes-command-live-stalled {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #e8cdb1;
+  border-radius: 0.45rem;
+  background: #fdf6ec;
+  color: #8a5a1a;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.hermes-command-live-stalled svg {
+  flex: 0 0 auto;
+}
+
+.hermes-command-live-stalled span {
+  min-width: 0;
+  flex: 1;
+}
+
+.hermes-command-live-stalled button {
+  flex: 0 0 auto;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid #d18b83;
+  border-radius: 0.35rem;
+  background: #fff5f3;
+  color: #9c3930;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.hermes-command-live-stalled button:hover {
+  background: #fbe3df;
+}
+
+/* ── Sức khoẻ lịch tác vụ (cổng `hermes cron doctor` lên Dashboard) ────── */
+
+.hermes-cron-health-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hermes-cron-health-head h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.hermes-cron-health-head p {
+  max-width: 46rem;
+  margin: 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.hermes-cron-health-loading,
+.hermes-cron-health-error {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.hermes-cron-health-error {
+  color: #b3453a;
+}
+
+.hermes-cron-health-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.hermes-cron-health-summary.is-ok {
+  border-color: color-mix(in srgb, var(--hermes-command-green) 45%, transparent);
+  color: var(--hermes-command-green);
+}
+
+.hermes-cron-health-summary.is-bad {
+  border-color: color-mix(in srgb, #c0564a 45%, transparent);
+  color: #b3453a;
+}
+
+.hermes-cron-health-job-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.hermes-cron-health-job-head code {
+  color: var(--hermes-command-cyan);
+  font-size: 0.68rem;
+}
+
+.hermes-cron-health-job ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-cron-health-job li {
+  padding-left: 0.6rem;
+  border-left: 2px solid var(--hermes-command-border);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.hermes-cron-health-job li.is-error {
+  border-left-color: #c0564a;
+}
+
+.hermes-cron-health-job li.is-warn {
+  border-left-color: var(--hermes-command-gold);
+}
+
+.hermes-cron-health-job li em {
+  display: block;
+  color: var(--hermes-command-cyan);
+  font-size: 0.72rem;
+  font-style: normal;
+}
+
+.hermes-cron-health-note p,
+.hermes-cron-health-note li {
+  color: var(--hermes-command-cyan);
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.hermes-cron-health-note p {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.3rem;
+}
+
+.hermes-cron-health-note ul {
+  margin: 0 0 0.4rem;
+  padding-left: 1.4rem;
+}
+
+.hermes-cron-health-cmd code {
+  padding: 0.05rem 0.3rem;
+  border-radius: 0.25rem;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-gold);
+}
+
+/* ── Nhóm (hosted rooms, chỉ để xem) ───────────────────────────────────── */
+
+.hermes-rooms-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hermes-rooms-head h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.hermes-rooms-head p {
+  max-width: 46rem;
+  margin: 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.hermes-rooms-loading,
+.hermes-rooms-empty,
+.hermes-rooms-error {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.8rem;
+}
+
+.hermes-rooms-error {
+  color: #b3453a;
+}
+
+.hermes-rooms-caps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.9rem;
+  font-size: 0.73rem;
+}
+
+.hermes-rooms-caps span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-rooms-caps span.is-on {
+  color: var(--hermes-command-green);
+}
+
+.hermes-rooms-caps span.is-off {
+  color: var(--hermes-command-gold);
+}
+
+.hermes-rooms-caps em {
+  flex-basis: 100%;
+  color: var(--hermes-command-cyan);
+  font-size: 0.71rem;
+  font-style: normal;
+}
+
+.hermes-rooms-grid {
+  display: grid;
+  grid-template-columns: minmax(12rem, 17rem) minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .hermes-rooms-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.hermes-rooms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hermes-rooms-list button {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.hermes-rooms-list button:hover {
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-rooms-list button.is-active {
+  border-color: color-mix(in srgb, var(--hermes-command-gold) 55%, transparent);
+  background: var(--hermes-command-gold-soft);
+}
+
+.hermes-rooms-list strong {
+  font-size: 0.82rem;
+}
+
+.hermes-rooms-list span,
+.hermes-rooms-list em {
+  color: var(--hermes-command-cyan);
+  font-size: 0.69rem;
+  font-style: normal;
+}
+
+.hermes-rooms-detail-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hermes-rooms-detail-head code {
+  color: var(--hermes-command-cyan);
+  font-size: 0.68rem;
+}
+
+.hermes-rooms-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0 0 0.6rem;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-rooms-members li {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 999px;
+  font-size: 0.72rem;
+}
+
+.hermes-rooms-members li span {
+  color: var(--hermes-command-cyan);
+  font-size: 0.66rem;
+}
+
+.hermes-rooms-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.45rem 0.9rem;
+  margin: 0 0 0.7rem;
+}
+
+.hermes-rooms-facts dt {
+  color: var(--hermes-command-cyan);
+  font-size: 0.67rem;
+}
+
+.hermes-rooms-facts dd {
+  margin: 0;
+  font-size: 0.78rem;
+}
+
+.hermes-rooms-detail h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.hermes-rooms-detail h3 span {
+  color: var(--hermes-command-cyan);
+  font-size: 0.68rem;
+  font-weight: 400;
+}
+
+.hermes-rooms-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-height: 26rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-rooms-log li {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.35rem 0.45rem;
+  border-radius: 0.35rem;
+  background: var(--hermes-command-surface-2);
+  font-size: 0.73rem;
+}
+
+.hermes-rooms-log-seq {
+  flex: 0 0 auto;
+  color: var(--hermes-command-cyan);
+  font-size: 0.66rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.hermes-rooms-log-body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.hermes-rooms-log-body em {
+  color: var(--hermes-command-gold);
+  font-size: 0.67rem;
+  font-style: normal;
+}
+
+.hermes-rooms-log-body span {
+  overflow-wrap: anywhere;
+  color: var(--hermes-command-cyan);
+  font-size: 0.71rem;
+}
+
+.hermes-rooms-log-time {
+  flex: 0 0 auto;
+  color: var(--hermes-command-cyan);
+  font-size: 0.64rem;
+}
+
+/* ── Ô ngữ cảnh: cửa sổ ngữ cảnh còn bao nhiêu chỗ ─────────────────────── */
+
+.hermes-context-gauge {
+  position: relative;
+  display: inline-flex;
+}
+
+.hermes-context-gauge-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.4rem;
+  background: transparent;
+  color: var(--hermes-command-cyan);
+  font-size: 0.72rem;
+  line-height: 1.3;
+}
+
+.hermes-context-gauge-trigger:hover {
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-context-gauge-text {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The bar is decoration on top of the number, not the reading itself — an
+   unknown gauge renders it empty rather than at zero. */
+.hermes-context-gauge-bar {
+  position: relative;
+  overflow: hidden;
+  width: 2.6rem;
+  height: 0.3rem;
+  border-radius: 999px;
+  background: var(--hermes-command-border);
+}
+
+.hermes-context-gauge-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: currentcolor;
+  transition: width 0.35s ease;
+}
+
+.hermes-context-gauge-trigger.is-roomy {
+  color: var(--hermes-command-green);
+}
+
+.hermes-context-gauge-trigger.is-filling {
+  color: var(--hermes-command-gold);
+  border-color: color-mix(in srgb, var(--hermes-command-gold) 45%, transparent);
+}
+
+.hermes-context-gauge-trigger.is-full {
+  color: #c0564a;
+  border-color: color-mix(in srgb, #c0564a 55%, transparent);
+  background: color-mix(in srgb, #c0564a 8%, transparent);
+}
+
+.hermes-context-gauge-trigger.is-unknown {
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-context-gauge-panel {
+  position: absolute;
+  z-index: 40;
+  bottom: calc(100% + 0.4rem);
+  left: 0;
+  width: min(24rem, calc(100vw - 2rem));
+  max-height: 24rem;
+  overflow-y: auto;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.55rem;
+  background: var(--hermes-command-surface);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.22);
+  color: var(--hermes-command-text);
+}
+
+.hermes-context-gauge-advice {
+  margin: 0 0 0.5rem;
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.hermes-context-gauge-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.5rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.73rem;
+}
+
+.hermes-context-gauge-panel h4 {
+  margin: 0 0 0.3rem;
+  font-size: 0.73rem;
+  font-weight: 600;
+}
+
+.hermes-context-gauge-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  margin: 0 0 0.45rem;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-context-gauge-rows li {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr) 3rem;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.71rem;
+}
+
+.hermes-context-gauge-row-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-context-gauge-row-bar {
+  overflow: hidden;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-context-gauge-row-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--hermes-command-gold);
+}
+
+.hermes-context-gauge-row-tokens {
+  color: var(--hermes-command-cyan);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.hermes-context-gauge-note {
+  margin: 0 0 0.35rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.69rem;
+  line-height: 1.5;
+}
+
+.hermes-context-gauge-commands {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--hermes-command-border);
+}
+
+.hermes-context-gauge-commands p {
+  margin: 0 0 0.3rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.hermes-context-gauge-commands code {
+  padding: 0.05rem 0.28rem;
+  border-radius: 0.25rem;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-gold);
+}
+
+/* ── Phòng họp Agents ──────────────────────────────────────────────────── */
+/* Chỉ hiện khi Hermes thật sự có agent phụ; không có thì khung chat giữ
+   nguyên bố cục cũ, không chừa khoảng trống nào. */
+
+.hermes-agent-room {
+  /* `.hermes-command-live-state` is an absolutely positioned badge pinned to
+     the chat's top-right corner at z-index 3 — the panel header's buttons now
+     live there, and in v2.23.0 the two painted on top of each other. The same
+     status is already in the toolbar above, so the panel wins. */
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  margin: 0 0 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.6rem;
+  background: var(--hermes-command-surface);
+  overflow: hidden;
+}
+
+.hermes-agent-room.is-fullscreen {
+  position: fixed;
+  z-index: 60;
+  inset: 1.25rem;
+  margin: 0;
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.35);
+}
+
+.hermes-agent-room-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid var(--hermes-command-border);
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-agent-room-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--hermes-command-text);
+  font-size: 0.8rem;
+}
+
+.hermes-agent-room-title svg:first-child {
+  color: var(--hermes-command-gold);
+}
+
+.hermes-agent-room-title span {
+  color: var(--hermes-command-cyan);
+  font-size: 0.71rem;
+}
+
+.hermes-agent-room-caret {
+  transform: rotate(180deg);
+}
+
+.hermes-agent-room-actions {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+}
+
+.hermes-agent-room-actions button {
+  white-space: nowrap;
+}
+
+.hermes-agent-room-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.18rem 0.45rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.35rem;
+  background: transparent;
+  color: var(--hermes-command-cyan);
+  font-size: 0.69rem;
+}
+
+.hermes-agent-room-actions button:hover:not(:disabled) {
+  background: var(--hermes-command-surface);
+  color: var(--hermes-command-text);
+}
+
+.hermes-agent-room-actions button:disabled {
+  opacity: 0.55;
+}
+
+.hermes-agent-room-follow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.69rem;
+}
+
+.hermes-agent-room-offline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, var(--hermes-command-gold) 16%, transparent);
+  color: var(--hermes-command-gold);
+  font-size: 0.68rem;
+}
+
+/* Hai cột trên màn rộng: cây agent bên trái, diễn biến bên phải. Trên 16:9
+   hẹp hơn thì xếp dọc, thẻ agent không phình ra. */
+.hermes-agent-room-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.5rem;
+  padding: 0.5rem 0.6rem 0.6rem;
+  min-height: 0;
+}
+
+@media (min-width: 1100px) {
+  .hermes-agent-room-body {
+    grid-template-columns: minmax(15rem, 22rem) minmax(0, 1fr);
+  }
+}
+
+/* 21:9 — tận dụng chiều ngang cho cột thẻ agent, nhưng có trần để thẻ không
+   bị kéo dài lê thê. */
+@media (min-width: 1800px) {
+  .hermes-agent-room-body {
+    grid-template-columns: minmax(18rem, 26rem) minmax(0, 1fr);
+  }
+
+  .hermes-agent-room-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 0.35rem;
+  }
+}
+
+.hermes-agent-room.is-fullscreen .hermes-agent-room-body {
+  min-height: 0;
+  height: calc(100% - 2.6rem);
+}
+
+.hermes-agent-room-parent {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--hermes-command-gold) 40%, transparent);
+  border-radius: 0.45rem;
+  background: var(--hermes-command-gold-soft);
+}
+
+.hermes-agent-room-parent svg {
+  color: var(--hermes-command-gold);
+}
+
+.hermes-agent-room-parent strong {
+  display: block;
+  font-size: 0.78rem;
+}
+
+.hermes-agent-room-parent span {
+  color: var(--hermes-command-cyan);
+  font-size: 0.68rem;
+}
+
+.hermes-agent-room-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-height: 22rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-agent-room-cards li {
+  position: relative;
+}
+
+.hermes-agent-card {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.45rem 2rem 0.45rem 0.55rem;
+  border: 1px solid var(--hermes-command-border);
+  border-left: 3px solid var(--hermes-command-border);
+  border-radius: 0.45rem;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.hermes-agent-card:hover {
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-agent-card.is-active {
+  border-color: color-mix(in srgb, var(--hermes-command-gold) 55%, transparent);
+  background: var(--hermes-command-gold-soft);
+}
+
+.hermes-agent-card.is-working {
+  border-left-color: var(--hermes-command-green);
+}
+
+.hermes-agent-card.is-queued {
+  border-left-color: var(--hermes-command-cyan);
+}
+
+.hermes-agent-card.is-completed {
+  border-left-color: var(--hermes-command-green);
+  opacity: 0.78;
+}
+
+.hermes-agent-card.is-failed,
+.hermes-agent-card.is-timeout {
+  border-left-color: #c0564a;
+}
+
+.hermes-agent-card.is-interrupted {
+  border-left-color: var(--hermes-command-gold);
+  opacity: 0.78;
+}
+
+.hermes-agent-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.76rem;
+}
+
+.hermes-agent-card-head strong {
+  overflow: hidden;
+  flex: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-agent-card-head em {
+  flex: 0 0 auto;
+  color: var(--hermes-command-cyan);
+  font-size: 0.65rem;
+  font-style: normal;
+}
+
+.hermes-agent-card-doing {
+  overflow: hidden;
+  color: var(--hermes-command-cyan);
+  font-size: 0.69rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Thanh này chỉ nói "đang chạy / đã xong" — Hermes không hề tính phần trăm
+   tiến độ, nên không có con số nào để đổ vào đây. */
+.hermes-agent-card-bar {
+  overflow: hidden;
+  height: 0.22rem;
+  border-radius: 999px;
+  background: var(--hermes-command-border);
+}
+
+.hermes-agent-card-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--hermes-command-green);
+}
+
+.hermes-agent-card-bar.is-done > span {
+  width: 100%;
+}
+
+.hermes-agent-card-bar.is-running > span {
+  width: 40%;
+  animation: hermes-agent-sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes hermes-agent-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hermes-agent-card-bar.is-running > span {
+    width: 100%;
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+.hermes-agent-card-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem 0.5rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.65rem;
+}
+
+.hermes-agent-card-stop {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  display: inline-flex;
+  padding: 0.2rem;
+  border: 1px solid transparent;
+  border-radius: 0.3rem;
+  background: transparent;
+  color: #c0564a;
+}
+
+.hermes-agent-card-stop:hover:not(:disabled) {
+  border-color: color-mix(in srgb, #c0564a 45%, transparent);
+  background: color-mix(in srgb, #c0564a 10%, transparent);
+}
+
+.hermes-agent-card-stop:disabled {
+  opacity: 0.5;
+}
+
+.hermes-agent-room-panel {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.hermes-agent-room-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.35rem;
+}
+
+.hermes-agent-room-tabs button {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: var(--hermes-command-cyan);
+  font-size: 0.71rem;
+}
+
+.hermes-agent-room-tabs button.is-active {
+  border-color: var(--hermes-command-border);
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-text);
+}
+
+.hermes-agent-room-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+  color: var(--hermes-command-cyan);
+  font-size: 0.68rem;
+}
+
+.hermes-agent-room-filter button {
+  padding: 0.1rem 0.35rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.3rem;
+  font-size: 0.65rem;
+}
+
+.hermes-agent-room-stream,
+.hermes-agent-room-summary,
+.hermes-agent-room-log {
+  min-height: 6rem;
+  max-height: 22rem;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+}
+
+.hermes-agent-room.is-fullscreen .hermes-agent-room-stream,
+.hermes-agent-room.is-fullscreen .hermes-agent-room-summary,
+.hermes-agent-room.is-fullscreen .hermes-agent-room-log,
+.hermes-agent-room.is-fullscreen .hermes-agent-room-cards {
+  max-height: none;
+  height: 100%;
+}
+
+.hermes-agent-room-stream ol,
+.hermes-agent-room-log ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-agent-room-stream li,
+.hermes-agent-room-log li {
+  display: grid;
+  grid-template-columns: 4.6rem minmax(6rem, 11rem) minmax(0, 1fr);
+  gap: 0.45rem;
+  padding: 0.28rem 0.35rem;
+  border-radius: 0.32rem;
+  background: var(--hermes-command-surface-2);
+  font-size: 0.71rem;
+}
+
+@media (max-width: 720px) {
+  .hermes-agent-room-stream li,
+  .hermes-agent-room-log li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.1rem;
+  }
+}
+
+.hermes-agent-room-stream li.is-complete {
+  background: color-mix(in srgb, var(--hermes-command-green) 10%, transparent);
+}
+
+.hermes-agent-room-stream li.is-spawn {
+  background: color-mix(in srgb, var(--hermes-command-gold) 10%, transparent);
+}
+
+.hermes-agent-room-time,
+.hermes-agent-room-log li > span:first-child {
+  color: var(--hermes-command-cyan);
+  font-size: 0.65rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.hermes-agent-room-who,
+.hermes-agent-room-log li strong {
+  overflow: hidden;
+  color: var(--hermes-command-gold);
+  font-size: 0.68rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-agent-room-what {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.hermes-agent-room-what em,
+.hermes-agent-room-log li em {
+  color: var(--hermes-command-cyan);
+  font-size: 0.66rem;
+  font-style: normal;
+}
+
+.hermes-agent-room-what code,
+.hermes-agent-room-log li code {
+  color: var(--hermes-command-gold);
+  font-size: 0.66rem;
+}
+
+.hermes-agent-room-what > span,
+.hermes-agent-room-log li > span:last-child {
+  overflow-wrap: anywhere;
+  min-width: 0;
+  flex: 1;
+}
+
+.hermes-agent-room-typing {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0.35rem 0 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.69rem;
+}
+
+.hermes-agent-room-typing > span {
+  width: 0.28rem;
+  height: 0.28rem;
+  border-radius: 999px;
+  background: currentcolor;
+  animation: hermes-agent-blink 1.2s infinite ease-in-out;
+}
+
+.hermes-agent-room-typing > span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.hermes-agent-room-typing > span:nth-child(3) {
+  animation-delay: 0.36s;
+  margin-right: 0.2rem;
+}
+
+@keyframes hermes-agent-blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hermes-agent-room-typing > span {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+.hermes-agent-room-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 0.4rem;
+}
+
+.hermes-agent-room-summary article {
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.4rem;
+}
+
+.hermes-agent-room-summary h4 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem;
+  margin: 0 0 0.25rem;
+  font-size: 0.75rem;
+}
+
+.hermes-agent-room-summary h4 em {
+  color: var(--hermes-command-cyan);
+  font-size: 0.65rem;
+  font-style: normal;
+}
+
+.hermes-agent-room-summary p {
+  margin: 0 0 0.3rem;
+  font-size: 0.71rem;
+  line-height: 1.5;
+}
+
+.hermes-agent-room-summary dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.2rem 0.5rem;
+  margin: 0;
+}
+
+.hermes-agent-room-summary dt {
+  color: var(--hermes-command-cyan);
+  font-size: 0.63rem;
+}
+
+.hermes-agent-room-summary dd {
+  margin: 0;
+  font-size: 0.7rem;
+}
+
+.hermes-agent-room-files {
+  overflow-wrap: anywhere;
+  color: var(--hermes-command-cyan);
+  font-size: 0.66rem;
+}
+
+.hermes-agent-room-empty {
+  margin: 0;
+  padding: 0.6rem 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.72rem;
+}
+
+.hermes-agent-room-note {
+  margin: 0.4rem 0 0;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--hermes-command-border);
+  color: var(--hermes-command-cyan);
+  font-size: 0.66rem;
+  line-height: 1.5;
+}
+
+/* ── Cây agent ở bảng điều khiển bên phải ──────────────────────────────── */
+
+/* Riêng một khoang trong rail, tự cuộn khi nhiều agent — v2.23.0 nhét nó vào
+   khoang model (`shrink-0`) nên cây dài là tràn ra đè lên danh sách phiên. */
+.hermes-agent-tree {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.hermes-agent-tree-list {
+  max-height: 14rem;
+  overflow-y: auto;
+}
+
+.hermes-agent-tree h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem;
+  margin: 0 0 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hermes-agent-tree h3 span {
+  color: var(--hermes-command-cyan);
+  font-size: 0.65rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.hermes-agent-tree-parent {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.72rem;
+}
+
+.hermes-agent-tree-parent svg {
+  color: var(--hermes-command-gold);
+}
+
+.hermes-agent-tree-parent em {
+  color: var(--hermes-command-cyan);
+  font-size: 0.65rem;
+  font-style: normal;
+}
+
+.hermes-agent-tree ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0 0 0 0.55rem;
+  list-style: none;
+}
+
+.hermes-agent-tree li {
+  position: relative;
+  padding-left: 0.6rem;
+  border-left: 1px solid var(--hermes-command-border);
+}
+
+.hermes-agent-tree li::before {
+  position: absolute;
+  top: 0.7rem;
+  left: 0;
+  width: 0.45rem;
+  height: 1px;
+  background: var(--hermes-command-border);
+  content: "";
+}
+
+.hermes-agent-tree li button {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 0.05rem;
+  padding: 0.25rem 0.3rem;
+  border: 0;
+  border-radius: 0.3rem;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.hermes-agent-tree li button:hover:not(:disabled) {
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-agent-tree-name {
+  overflow: hidden;
+  font-size: 0.71rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-agent-tree-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem 0.4rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.63rem;
+}
+
+.hermes-agent-tree li.is-working .hermes-agent-tree-meta em {
+  color: var(--hermes-command-green);
+  font-style: normal;
+}
+
+.hermes-agent-tree li.is-failed .hermes-agent-tree-meta em,
+.hermes-agent-tree li.is-timeout .hermes-agent-tree-meta em {
+  color: #c0564a;
+  font-style: normal;
+}
+
+.hermes-agent-tree-doing {
+  overflow: hidden;
+  color: var(--hermes-command-cyan);
+  font-size: 0.63rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-agent-tree-note {
+  margin: 0.3rem 0 0;
+  color: var(--hermes-command-gold);
+  font-size: 0.64rem;
+}
+
+/* Thông báo nội bộ Hermes tự chèn (báo cáo agent chạy nền). Không phải anh gõ,
+   nên không vẽ vào bong bóng người dùng — nhưng vẫn mở ra đọc đủ được. */
+.hermes-command-internal-note {
+  align-self: flex-start;
+  max-width: min(90%, 60rem);
+  margin: 0.15rem 0;
+  border: 1px dashed var(--hermes-command-border);
+  border-radius: 0.5rem;
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-command-internal-note summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.6rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+
+.hermes-command-internal-note summary em {
+  color: var(--hermes-command-gold);
+  font-size: 0.66rem;
+  font-style: normal;
+}
+
+.hermes-command-internal-note pre {
+  max-height: 22rem;
+  overflow: auto;
+  margin: 0;
+  padding: 0.5rem 0.6rem 0.6rem;
+  border-top: 1px solid var(--hermes-command-border);
+  color: var(--hermes-command-text);
+  font-size: 0.7rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Hội thoại riêng của một agent phụ — đọc từ phiên con của chính nó. */
+.hermes-agent-room-child {
+  min-height: 6rem;
+  max-height: 22rem;
+  overflow-y: auto;
+}
+
+.hermes-agent-room-child ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-agent-room-child li {
+  padding: 0.4rem 0.5rem;
+  border-left: 2px solid var(--hermes-command-border);
+  border-radius: 0.3rem;
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-agent-room-child li.is-user {
+  border-left-color: var(--hermes-command-gold);
+}
+
+.hermes-agent-room-child li.is-assistant {
+  border-left-color: var(--hermes-command-green);
+}
+
+.hermes-agent-room-child strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.66rem;
+}
+
+.hermes-agent-room-child pre {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ── Hermes hỏi lại (công cụ clarify) ─────────────────────────────────── */
+/* Clarify chặn cả lượt cho tới khi có câu trả lời, nên thẻ này phải nổi và
+   phải nói rõ là Hermes đang đứng chờ. */
+
+.hermes-clarify {
+  margin-bottom: 0.5rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--hermes-command-cyan) 40%, transparent);
+  border-left: 3px solid var(--hermes-command-cyan);
+  border-radius: 0.5rem;
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-clarify > header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.2rem;
+  font-size: 0.8rem;
+}
+
+.hermes-clarify > header span {
+  margin-left: auto;
+  color: var(--hermes-command-cyan);
+  font-size: 0.68rem;
+}
+
+.hermes-clarify-note {
+  margin: 0 0 0.5rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.69rem;
+}
+
+.hermes-clarify-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  max-height: 26rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-clarify-questions > li {
+  padding: 0.45rem 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.45rem;
+}
+
+.hermes-clarify-questions > li.is-answered {
+  border-color: color-mix(in srgb, var(--hermes-command-green) 45%, transparent);
+  background: color-mix(in srgb, var(--hermes-command-green) 7%, transparent);
+}
+
+.hermes-clarify-question {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.hermes-clarify-question em {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--hermes-command-green);
+  font-size: 0.65rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.hermes-clarify-question i {
+  color: var(--hermes-command-cyan);
+  font-size: 0.65rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.hermes-clarify-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  margin-bottom: 0.35rem;
+}
+
+.hermes-clarify-choices button {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.38rem;
+  background: transparent;
+  color: inherit;
+  font-size: 0.75rem;
+  text-align: left;
+}
+
+.hermes-clarify-choices button:hover {
+  background: var(--hermes-command-surface);
+}
+
+.hermes-clarify-choices button.is-picked {
+  border-color: color-mix(in srgb, var(--hermes-command-gold) 55%, transparent);
+  background: var(--hermes-command-gold-soft);
+}
+
+.hermes-clarify-choices button > span {
+  flex: 1;
+}
+
+.hermes-clarify-choices button em {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--hermes-command-gold);
+  font-size: 0.64rem;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.hermes-clarify-custom {
+  width: 100%;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.38rem;
+  background: var(--hermes-command-surface);
+  color: var(--hermes-command-text);
+  font-size: 0.75rem;
+}
+
+.hermes-clarify-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.hermes-clarify-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.35rem;
+  background: var(--hermes-command-surface);
+  color: inherit;
+  font-size: 0.7rem;
+}
+
+.hermes-clarify-actions button:disabled {
+  opacity: 0.5;
+}
+
+.hermes-clarify-actions code {
+  overflow: hidden;
+  color: var(--hermes-command-cyan);
+  font-size: 0.66rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-clarify-failed {
+  margin: 0.4rem 0 0;
+  color: #b3453a;
+  font-size: 0.7rem;
+}
+
+/* Nút tạo phòng bị khoá phải nhìn ra là bị khoá — và ngay trên nó đã liệt kê
+   lý do. v2.25.0 khoá nút mà không nói gì, nhìn hệt như nút hỏng. */
+.hermes-rooms-create-blocked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.hermes-rooms-ready {
+  margin: 0 0 0.5rem;
+  color: var(--hermes-command-green);
+  font-size: 0.71rem;
+}
+
+/* ── Bộ chọn profile trên thanh trái ─────────────────────────────────── */
+/*
+ * Ô này chỉ hiện khi có từ 2 profile trở lên, nên nó nằm im tới tận lúc anh
+ * tạo thành viên cho phòng Nhóm mới lộ ra.
+ *
+ * BẢN v2.26.1 SỬA HỤT, và lý do đáng ghi lại. Lúc đó em tô nền bằng
+ * `--hermes-max-panel-strong`, tưởng nó là "màu panel tối". Thật ra nó là
+ *
+ *     color-mix(in srgb, var(--midground-base) 8%, var(--background-base))
+ *
+ * tức là màu panel cho THÂN TRANG, mà thân trang của Ivory Graphite là ivory
+ * `#F4F4F1`. Tệ hơn: bên trong `.hermes-max-sidebar`, `--midground-base` bị
+ * ghi đè thành `#f4f4f1` (để chữ sáng lên trên nền tối) nhưng
+ * `--background-base` thì KHÔNG — nên phép trộn ra "trắng pha trắng", đúng
+ * cái lớp trắng anh thấy. Chữ thì `--foreground-base` = `#ffffff`. Trắng trên
+ * trắng, lần thứ hai.
+ *
+ * Bài học: trong thanh trái tối, các token gốc mô tả thân trang sáng, không
+ * mô tả chỗ này. Nên ở đây ghi thẳng màu như chính `.hermes-max-sidebar` vẫn
+ * làm, thay vì trộn từ token rồi đoán kết quả.
+ */
+
+#hermes-profile-switcher button {
+  border-color: rgb(255 255 255 / 0.14) !important;
+  background: rgb(255 255 255 / 0.06) !important;
+  color: #f4f4f1 !important;
+}
+
+#hermes-profile-switcher button:hover {
+  border-color: rgb(255 255 255 / 0.24) !important;
+  background: rgb(255 255 255 / 0.1) !important;
+}
+
+#hermes-profile-switcher button svg {
+  color: #b9bcc1 !important;
+}
+
+/* Danh sách xổ xuống nằm ngay trong control (không portal), nhưng vẫn bắt cả
+   hai đường phòng khi Nous đổi sang portal. */
+#hermes-profile-switcher [role="listbox"],
+[role="listbox"][aria-labelledby="hermes-profile-switcher"] {
+  border: 1px solid #33363b !important;
+  background: #1b1d20 !important;
+  color: #f4f4f1 !important;
+  box-shadow: 0 18px 42px rgb(0 0 0 / 0.5) !important;
+}
+
+#hermes-profile-switcher [role="option"],
+[role="listbox"][aria-labelledby="hermes-profile-switcher"] [role="option"] {
+  color: #d7d9dd !important;
+}
+
+#hermes-profile-switcher [role="option"]:hover,
+#hermes-profile-switcher [role="option"][aria-selected="true"],
+[role="listbox"][aria-labelledby="hermes-profile-switcher"] [role="option"]:hover {
+  background: rgb(255 255 255 / 0.08) !important;
+  color: #ffffff !important;
+}
+
+/* ── Nhóm: bố cục ba cột, cột trái thu gọn được ───────────────────────── */
+/* Chữ ở đây cố ý to hơn phần còn lại của Dashboard: đây là chỗ để ĐỌC một
+   cuộc hội thoại, không phải bảng số liệu. */
+
+/* Chiều cao phải XÁC ĐỊNH liên tục tới tận đây, nếu không `overflow-y: auto`
+   của khung tin nhắn không bao giờ kích hoạt: cột giữa cứ dài ra theo nội
+   dung và anh phải cuộn CẢ TRANG mới với tới ô soạn tin. App.tsx cho /rooms
+   khung bọc `flex-1 min-h-0`; dòng `flex` dưới đây nhận lấy chiều cao đó. */
+.hermes-rooms-shell {
+  display: grid;
+  grid-template-columns: 17rem auto minmax(0, 1fr) 17rem;
+  gap: 0;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.hermes-rooms-shell.is-rail-closed {
+  grid-template-columns: 0 auto minmax(0, 1fr) 17rem;
+}
+
+@media (min-width: 1800px) {
+  .hermes-rooms-shell {
+    grid-template-columns: 19rem auto minmax(0, 1fr) 19rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .hermes-rooms-shell,
+  .hermes-rooms-shell.is-rail-closed {
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+  }
+
+  .hermes-rooms-rail-toggle,
+  .hermes-rooms-shell.is-rail-closed .hermes-rooms-rail {
+    display: none;
+  }
+}
+
+.hermes-rooms-boot {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.85rem;
+}
+
+/* ── Cột trái ─────────────────────────────────────────────────────────── */
+
+.hermes-rooms-rail {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+  padding: 0.7rem;
+  border-right: 1px solid var(--hermes-command-border);
+}
+
+.is-rail-closed .hermes-rooms-rail {
+  padding: 0;
+  border-right: 0;
+}
+
+.is-rail-closed .hermes-rooms-rail > * {
+  display: none;
+}
+
+.hermes-rooms-rail-toggle {
+  align-self: start;
+  margin-top: 0.75rem;
+  padding: 0.3rem 0.15rem;
+  border: 1px solid var(--hermes-command-border);
+  border-left: 0;
+  border-radius: 0 0.4rem 0.4rem 0;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-rooms-rail-toggle:hover {
+  color: var(--hermes-command-text);
+}
+
+.hermes-rooms-search {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.45rem;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-rooms-search input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: none;
+  color: var(--hermes-command-text);
+  font-size: 0.8rem;
+  outline: none;
+}
+
+.hermes-rooms-search.is-inline {
+  max-width: 15rem;
+}
+
+.hermes-rooms-rail-label {
+  margin: 0.2rem 0 0;
+  color: var(--hermes-command-gold);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hermes-rooms-rail-list {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow-y: auto;
+}
+
+.hermes-rooms-card {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.hermes-rooms-card:hover {
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-rooms-card.is-active {
+  border-color: color-mix(in srgb, var(--hermes-command-gold) 50%, transparent);
+  background: var(--hermes-command-gold-soft);
+}
+
+.hermes-rooms-card-body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.hermes-rooms-card-body strong {
+  overflow: hidden;
+  font-size: 0.82rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-rooms-card-body em {
+  overflow: hidden;
+  color: var(--hermes-command-cyan);
+  font-size: 0.68rem;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-rooms-card-meta {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.63rem;
+}
+
+.hermes-rooms-card-meta i {
+  padding: 0.05rem 0.3rem;
+  border-radius: 999px;
+  background: var(--hermes-command-gold-soft);
+  color: var(--hermes-command-gold);
+  font-size: 0.6rem;
+  font-style: normal;
+}
+
+/* ── Ảnh đại diện sinh từ chữ cái ─────────────────────────────────────── */
+/* Không dùng ảnh người thật: Hermes không lưu avatar cho thành viên phòng. */
+
+.hermes-rooms-avatar {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.hermes-rooms-stack {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.hermes-rooms-stack > span {
+  display: inline-flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-left: -0.45rem;
+  border: 2px solid var(--hermes-command-surface);
+  border-radius: 999px;
+  font-size: 0.55rem;
+  font-weight: 700;
+}
+
+.hermes-rooms-stack > span:first-child {
+  margin-left: 0;
+}
+
+.hermes-rooms-stack.is-large > span {
+  width: 2rem;
+  height: 2rem;
+  margin-left: -0.6rem;
+  font-size: 0.68rem;
+}
+
+/* ── Cột giữa ─────────────────────────────────────────────────────────── */
+
+.hermes-rooms-main {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.hermes-rooms-blank {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 2rem;
+  color: var(--hermes-command-cyan);
+  text-align: center;
+}
+
+.hermes-rooms-blank p {
+  max-width: 30rem;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+/* Tiêu đề, thanh trạng thái, hàng chờ duyệt và ô soạn tin đều KHÔNG co lại và
+   KHÔNG cuộn — chỉ mình khung tin nhắn cuộn. */
+.hermes-rooms-header,
+.hermes-rooms-strip,
+.hermes-room-pending,
+.hermes-rooms-composer {
+  flex-shrink: 0;
+}
+
+.hermes-rooms-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--hermes-command-border);
+}
+
+.hermes-rooms-header-title {
+  min-width: 0;
+  flex: 1;
+}
+
+.hermes-rooms-header-title strong {
+  display: block;
+  overflow: hidden;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-rooms-header-title span {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.72rem;
+}
+
+.hermes-rooms-header-title svg.is-live {
+  color: var(--hermes-command-green);
+}
+
+.hermes-rooms-header-title i {
+  padding: 0.05rem 0.35rem;
+  border-radius: 0.3rem;
+  background: var(--hermes-command-surface-2);
+  font-size: 0.65rem;
+  font-style: normal;
+}
+
+.hermes-rooms-rename {
+  width: 100%;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid var(--hermes-command-gold);
+  border-radius: 0.35rem;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-text);
+  font-size: 1rem;
+}
+
+.hermes-rooms-icon-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.4rem;
+  background: transparent;
+  color: var(--hermes-command-cyan);
+  font-size: 0.72rem;
+}
+
+.hermes-rooms-icon-button:hover:not(:disabled) {
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-text);
+}
+
+.hermes-rooms-icon-button.is-danger {
+  border-color: color-mix(in srgb, #c0564a 45%, transparent);
+  color: #b3453a;
+}
+
+.hermes-rooms-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.9rem;
+  padding: 0.35rem 0.9rem;
+  border-bottom: 1px solid var(--hermes-command-border);
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-cyan);
+  font-size: 0.72rem;
+}
+
+.hermes-rooms-strip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.hermes-rooms-stream {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.6rem;
+  overflow-y: auto;
+  padding: 0.9rem;
+}
+
+.hermes-rooms-stream-empty {
+  max-width: 34rem;
+  margin: auto;
+  text-align: center;
+}
+
+.hermes-rooms-turn {
+  display: flex;
+  max-width: min(74%, 52rem);
+  gap: 0.5rem;
+}
+
+.hermes-rooms-turn > div {
+  min-width: 0;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.1rem 0.7rem 0.7rem 0.7rem;
+  background: var(--hermes-command-surface);
+}
+
+.hermes-rooms-turn.is-you {
+  max-width: min(64%, 44rem);
+  align-self: flex-end;
+  flex-direction: column;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.7rem 0.1rem 0.7rem 0.7rem;
+  background: #24262a;
+  color: #f3f4f2;
+}
+
+.hermes-rooms-turn.is-problem > div {
+  border-style: dashed;
+  border-color: color-mix(in srgb, #c0564a 45%, transparent);
+}
+
+.hermes-rooms-turn header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin-bottom: 0.15rem;
+}
+
+.hermes-rooms-turn header strong {
+  font-size: 0.82rem;
+}
+
+.hermes-rooms-turn header code {
+  padding: 0.05rem 0.3rem;
+  border-radius: 0.25rem;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-cyan);
+  font-size: 0.63rem;
+}
+
+.hermes-rooms-turn.is-you header {
+  align-items: center;
+  color: rgb(243 244 242 / 0.75);
+}
+
+.hermes-rooms-turn header em,
+.hermes-rooms-turn header time {
+  color: var(--hermes-command-cyan);
+  font-size: 0.65rem;
+  font-style: normal;
+}
+
+.hermes-rooms-turn.is-you header time {
+  margin-left: auto;
+  color: rgb(243 244 242 / 0.6);
+}
+
+/* Đây là chỗ để đọc, nên cỡ chữ ngang khung chat chính. */
+.hermes-rooms-turn p {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+  line-height: 1.66;
+  white-space: pre-wrap;
+}
+
+.hermes-rooms-turn-passed {
+  color: var(--hermes-command-cyan);
+  font-style: italic;
+}
+
+.hermes-rooms-turn-problem {
+  color: #b3453a;
+}
+
+.hermes-rooms-typing {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.76rem;
+}
+
+.hermes-rooms-typing > span {
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 999px;
+  background: currentcolor;
+  animation: hermes-agent-blink 1.2s infinite ease-in-out;
+}
+
+.hermes-rooms-typing > span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.hermes-rooms-typing > span:nth-child(3) {
+  margin-right: 0.25rem;
+  animation-delay: 0.36s;
+}
+
+.hermes-rooms-outcome {
+  align-self: center;
+  margin: 0.3rem 0 0;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--hermes-command-green) 12%, transparent);
+  color: var(--hermes-command-green);
+  font-size: 0.76rem;
+}
+
+.hermes-rooms-outcome.is-bounded {
+  background: color-mix(in srgb, var(--hermes-command-gold) 14%, transparent);
+  color: var(--hermes-command-gold);
+}
+
+/* ── Ô nhắn tin ───────────────────────────────────────────────────────── */
+
+.hermes-rooms-composer {
+  padding: 0.6rem 0.9rem 0.8rem;
+  border-top: 1px solid var(--hermes-command-border);
+}
+
+.hermes-rooms-composer textarea {
+  width: 100%;
+  min-height: 4.5rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.55rem;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.hermes-rooms-composer textarea:focus {
+  border-color: color-mix(in srgb, var(--hermes-command-gold) 55%, transparent);
+  outline: none;
+}
+
+.hermes-rooms-composer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.45rem;
+}
+
+.hermes-rooms-mentions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-rooms-mentions button {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--hermes-command-gold);
+  font-size: 0.72rem;
+}
+
+.hermes-rooms-mentions button:hover {
+  background: var(--hermes-command-gold-soft);
+}
+
+/* ── Cột phải ─────────────────────────────────────────────────────────── */
+
+.hermes-rooms-people {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  padding: 0.8rem;
+  border-left: 1px solid var(--hermes-command-border);
+}
+
+.hermes-rooms-people h3 {
+  margin: 0;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hermes-command-gold);
+}
+
+.hermes-rooms-people ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-rooms-people > ul > li {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.hermes-rooms-people li strong {
+  display: block;
+  font-size: 0.82rem;
+}
+
+.hermes-rooms-people li p {
+  margin: 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.hermes-rooms-person-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.15rem;
+}
+
+.hermes-rooms-person-meta code {
+  padding: 0.05rem 0.3rem;
+  border-radius: 0.25rem;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-cyan);
+  font-size: 0.62rem;
+}
+
+.hermes-rooms-person-meta em {
+  color: var(--hermes-command-cyan);
+  font-size: 0.65rem;
+  font-style: normal;
+}
+
+/* ── Đổi model của một thành viên ─────────────────────────────────────── */
+/* Đây là thao tác ghi vào config của cả profile, không phải cài đặt riêng của
+   phòng — nên có dòng cảnh báo phạm vi nằm ngay trên danh sách chọn. */
+
+.hermes-rooms-member-model {
+  position: relative;
+  margin-top: 0.25rem;
+}
+
+.hermes-rooms-model-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.35rem;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-cyan);
+  font-size: 0.62rem;
+}
+
+.hermes-rooms-model-button:hover:not(:disabled) {
+  border-color: var(--hermes-command-gold);
+  color: var(--hermes-command-text);
+}
+
+.hermes-rooms-model-button code {
+  overflow: hidden;
+  flex: 1;
+  color: inherit;
+  font-size: 0.62rem;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-rooms-model-state {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--hermes-command-green);
+  font-size: 0.6rem;
+  font-style: normal;
+}
+
+.hermes-rooms-model-state.is-bad {
+  color: var(--hermes-command-red, #f87171);
+}
+
+.hermes-rooms-model-pop {
+  position: absolute;
+  z-index: 6;
+  top: calc(100% + 0.25rem);
+  right: 0;
+  left: 0;
+  display: flex;
+  max-height: 19rem;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.45rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.5rem;
+  background: var(--hermes-command-surface);
+  box-shadow: 0 18px 42px rgb(0 0 0 / 0.45);
+}
+
+.hermes-rooms-model-warn {
+  display: flex;
+  align-items: start;
+  gap: 0.25rem;
+  margin: 0;
+  color: var(--hermes-command-gold);
+  font-size: 0.6rem;
+  line-height: 1.45;
+}
+
+.hermes-rooms-model-warn svg {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.hermes-rooms-model-pop input {
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.35rem;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-text);
+  font-size: 0.66rem;
+}
+
+.hermes-rooms-model-list {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.1rem;
+  overflow-y: auto;
+}
+
+.hermes-rooms-model-list button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding: 0.25rem 0.35rem;
+  border-radius: 0.3rem;
+  color: var(--hermes-command-text);
+  font-size: 0.64rem;
+  text-align: left;
+}
+
+.hermes-rooms-model-list button:hover {
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-rooms-model-list button.is-current {
+  color: var(--hermes-command-gold);
+}
+
+.hermes-rooms-model-list button i {
+  flex-shrink: 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.58rem;
+  font-style: normal;
+}
+
+.hermes-rooms-model-bad {
+  margin: 0;
+  color: var(--hermes-command-red, #f87171);
+  font-size: 0.6rem;
+}
+
+.hermes-rooms-facts li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+}
+
+.hermes-rooms-facts-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.3rem;
+  margin: 0;
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.hermes-rooms-muted {
+  margin: 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.75rem;
+}
+
+.hermes-rooms-error {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.4rem 0.9rem;
+  color: #b3453a;
+  font-size: 0.78rem;
+}
+
+/* ── Hộp tạo phòng ────────────────────────────────────────────────────── */
+
+.hermes-rooms-modal {
+  position: fixed;
+  z-index: 70;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgb(0 0 0 / 0.45);
+}
+
+.hermes-rooms-modal-body {
+  width: min(34rem, 100%);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.7rem;
+  background: var(--hermes-command-surface);
+}
+
+.hermes-rooms-modal-body > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+  font-size: 0.95rem;
+}
+
+.hermes-rooms-modal-body > header button {
+  border: 0;
+  background: none;
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-rooms-field {
+  display: block;
+  margin-bottom: 0.7rem;
+}
+
+.hermes-rooms-field span {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.7rem;
+}
+
+.hermes-rooms-field input {
+  width: 100%;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.45rem;
+  background: var(--hermes-command-surface-2);
+  color: var(--hermes-command-text);
+  font-size: 0.85rem;
+}
+
+.hermes-rooms-field-label {
+  margin: 0 0 0.35rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.7rem;
+}
+
+.hermes-rooms-pick {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 0.35rem;
+  margin-bottom: 0.6rem;
+}
+
+.hermes-rooms-pick button {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.45rem;
+  background: transparent;
+  color: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.hermes-rooms-pick button:hover {
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-rooms-pick button.is-picked {
+  border-color: color-mix(in srgb, var(--hermes-command-gold) 55%, transparent);
+  background: var(--hermes-command-gold-soft);
+}
+
+.hermes-rooms-pick code {
+  overflow: hidden;
+  margin-left: auto;
+  color: var(--hermes-command-cyan);
+  font-size: 0.63rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-rooms-handles {
+  margin: 0 0 0.45rem;
+  color: var(--hermes-command-gold);
+  font-size: 0.75rem;
+}
+
+.hermes-rooms-problems {
+  margin: 0 0 0.6rem;
+  padding-left: 1.1rem;
+  color: #b3453a;
+  font-size: 0.74rem;
+  line-height: 1.55;
+}
+
+.hermes-rooms-ready {
+  margin: 0 0 0.6rem;
+  color: var(--hermes-command-green);
+  font-size: 0.74rem;
+}
+
+.hermes-rooms-create-blocked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ── Việc cần người xử lý ─────────────────────────────────────────────── */
+
+.hermes-room-pending {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid var(--hermes-command-border);
+  background: color-mix(in srgb, var(--hermes-command-gold) 10%, transparent);
+}
+
+.hermes-room-pending > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.hermes-room-pending span {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+}
+
+.hermes-room-pending button {
+  margin-left: 0.3rem;
+  padding: 0.22rem 0.55rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.35rem;
+  background: var(--hermes-command-surface);
+  color: inherit;
+  font-size: 0.73rem;
+}
+
+.hermes-room-pending button.is-deny {
+  border-color: color-mix(in srgb, #c0564a 45%, transparent);
+  color: #b3453a;
+}
+
+/* ── Pet, công cụ phiên, checkpoint (v2.29.0) ────────────────────────── */
+
+/* Pet của Hermes chỉ là hình động: không có chỉ số nào để vẽ, nên ở đây chỉ
+   có cái sprite, cái tên, và hai thứ chỉnh được thật (con nào, to bao nhiêu). */
+
+.hermes-pet {
+  position: absolute;
+  z-index: 5;
+  right: 0.9rem;
+  bottom: 7.5rem;
+}
+
+.hermes-pet-stage {
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.hermes-pet-sprite {
+  display: block;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  transform-origin: center;
+}
+
+.hermes-pet-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.4rem);
+  display: flex;
+  width: 17rem;
+  max-height: 24rem;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.6rem;
+  background: var(--hermes-command-surface);
+  box-shadow: 0 18px 44px rgb(0 0 0 / 0.45);
+}
+
+.hermes-pet-panel header {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--hermes-command-gold);
+  font-size: 0.72rem;
+}
+
+.hermes-pet-panel header span {
+  color: var(--hermes-command-cyan);
+  font-size: 0.65rem;
+}
+
+.hermes-pet-panel header button {
+  margin-left: auto;
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-pet-scale {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.66rem;
+}
+
+.hermes-pet-scale input {
+  flex: 1;
+}
+
+.hermes-pet-note,
+.hermes-pet-muted {
+  margin: 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.62rem;
+  line-height: 1.5;
+}
+
+.hermes-pet-list {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 0.1rem;
+  overflow-y: auto;
+}
+
+.hermes-pet-list button {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.35rem;
+  border-radius: 0.3rem;
+  color: var(--hermes-command-text);
+  font-size: 0.68rem;
+  text-align: left;
+}
+
+.hermes-pet-list button:hover {
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-pet-list button.is-active {
+  color: var(--hermes-command-gold);
+}
+
+.hermes-pet-list button i,
+.hermes-pet-list button em {
+  color: var(--hermes-command-cyan);
+  font-size: 0.58rem;
+  font-style: normal;
+}
+
+.hermes-pet-off {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-top: 1px solid var(--hermes-command-border);
+  color: var(--hermes-command-cyan);
+  font-size: 0.64rem;
+}
+
+.hermes-pet-bad {
+  margin: 0;
+  color: var(--hermes-command-red, #f87171);
+  font-size: 0.62rem;
+}
+
+/* ── Ngăn công cụ ─────────────────────────────────────────────────────── */
+
+.hermes-command-drawer-tabs {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.3rem;
+  padding: 0 0.2rem 0.35rem;
+}
+
+.hermes-command-drawer-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.4rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.66rem;
+}
+
+.hermes-command-drawer-tabs button.is-active {
+  border-color: var(--hermes-command-gold);
+  color: var(--hermes-command-gold);
+}
+
+.hermes-command-drawer {
+  flex-shrink: 0;
+  max-height: 22rem;
+  overflow-y: auto;
+  margin-bottom: 0.4rem;
+  padding: 0.6rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.6rem;
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.hermes-tools-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.22rem 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.4rem;
+  color: var(--hermes-command-text);
+  font-size: 0.66rem;
+}
+
+.hermes-tools-tab.is-active {
+  border-color: var(--hermes-command-gold);
+  color: var(--hermes-command-gold);
+}
+
+.hermes-tools-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.hermes-tools-panel textarea {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.45rem;
+  background: var(--hermes-command-surface);
+  color: var(--hermes-command-text);
+  font-size: 0.8rem;
+  resize: vertical;
+}
+
+.hermes-tools-modes {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.hermes-tools-modes button {
+  padding: 0.18rem 0.5rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.35rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.64rem;
+}
+
+.hermes-tools-modes button.is-picked {
+  border-color: var(--hermes-command-gold);
+  color: var(--hermes-command-gold);
+}
+
+.hermes-tools-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.hermes-tools-actions button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--hermes-command-gold);
+  border-radius: 0.4rem;
+  color: var(--hermes-command-gold);
+  font-size: 0.68rem;
+}
+
+.hermes-tools-actions button.is-secondary {
+  border-color: var(--hermes-command-border);
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-tools-actions button:disabled {
+  opacity: 0.45;
+}
+
+.hermes-tools-note {
+  margin: 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.64rem;
+  line-height: 1.5;
+}
+
+.hermes-tools-warn {
+  display: flex;
+  align-items: start;
+  gap: 0.25rem;
+  margin: 0;
+  color: var(--hermes-command-gold);
+  font-size: 0.63rem;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.hermes-tools-warn svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.hermes-tools-block,
+.hermes-tools-bad {
+  margin: 0;
+  color: var(--hermes-command-red, #f87171);
+  font-size: 0.64rem;
+}
+
+.hermes-tools-result {
+  margin: 0.4rem 0 0;
+  color: var(--hermes-command-green);
+  font-size: 0.66rem;
+}
+
+/* ── Trả lời câu hỏi phụ ─────────────────────────────────────────────── */
+
+.hermes-side-answers {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.hermes-side-answer {
+  padding: 0.5rem 0.6rem;
+  border: 1px dashed var(--hermes-command-border);
+  border-radius: 0.55rem;
+  background: var(--hermes-command-surface-2);
+}
+
+.hermes-side-answer.is-bad {
+  border-color: var(--hermes-command-red, #f87171);
+}
+
+.hermes-side-answer header {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 0.25rem;
+  color: var(--hermes-command-gold);
+  font-size: 0.68rem;
+}
+
+.hermes-side-answer header em {
+  overflow: hidden;
+  color: var(--hermes-command-cyan);
+  font-size: 0.63rem;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-side-answer header button {
+  margin-left: auto;
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-side-answer footer {
+  margin-top: 0.3rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.6rem;
+}
+
+/* ── Checkpoint ──────────────────────────────────────────────────────── */
+
+.hermes-cp {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.hermes-cp-off,
+.hermes-cp-warn {
+  display: flex;
+  align-items: start;
+  gap: 0.3rem;
+  margin: 0;
+  color: var(--hermes-command-gold);
+  font-size: 0.64rem;
+  line-height: 1.5;
+}
+
+.hermes-cp-off svg,
+.hermes-cp-warn svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.hermes-cp-scope,
+.hermes-cp-muted {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  color: var(--hermes-command-cyan);
+  font-size: 0.62rem;
+}
+
+.hermes-cp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hermes-cp-list button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.35rem;
+  border-radius: 0.35rem;
+  color: var(--hermes-command-text);
+  font-size: 0.66rem;
+}
+
+.hermes-cp-list button:hover {
+  background: var(--hermes-command-surface);
+}
+
+.hermes-cp-list li.is-picked button {
+  color: var(--hermes-command-gold);
+}
+
+.hermes-cp-list code {
+  margin-left: auto;
+  color: var(--hermes-command-cyan);
+  font-size: 0.6rem;
+}
+
+.hermes-cp-diff {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--hermes-command-border);
+}
+
+.hermes-cp-stat,
+.hermes-cp-body {
+  max-height: 14rem;
+  overflow: auto;
+  margin: 0;
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  background: var(--hermes-command-surface);
+  color: var(--hermes-command-text);
+  font-size: 0.62rem;
+  line-height: 1.45;
+  white-space: pre;
+}
+
+.hermes-cp-files {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.62rem;
+}
+
+.hermes-cp-files button {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid var(--hermes-command-border);
+  border-radius: 0.35rem;
+  color: var(--hermes-command-text);
+  font-size: 0.62rem;
+}
+
+.hermes-cp-restore-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.3rem;
+  border: 1px solid var(--hermes-command-red, #f87171);
+  border-radius: 0.4rem;
+  color: var(--hermes-command-red, #f87171);
+  font-size: 0.66rem;
+}
+
+.hermes-cp-result {
+  margin: 0;
+  color: var(--hermes-command-green);
+  font-size: 0.64rem;
+}
+
+.hermes-cp-bad {
+  margin: 0;
+  color: var(--hermes-command-red, #f87171);
+  font-size: 0.64rem;
+}
