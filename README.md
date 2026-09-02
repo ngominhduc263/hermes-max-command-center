@@ -28,6 +28,17 @@ back — but you should know that going in.
 completed `hermes update` (the repo needs its `node_modules`).
 
 ---
+## Screenshots
+
+### Giao diện trò chuyện
+
+![Hermes Max Command Center - Chat](screenshots/hermes-max-chat.png.png)
+
+### Quản lý phiên làm việc
+
+![Hermes Max Command Center - Sessions](screenshots/hermes-max-sessions.png.png)
+
+---
 
 ## Install
 
