@@ -9,6 +9,17 @@ tools, file checkpoints, and the animated pet.
 modifies a Hermes Agent installation on your own machine.
 
 ---
+## Screenshots
+
+### Giao diện trò chuyện
+
+![Hermes Max Command Center - Chat](screenshots/hermes-max-chat.png.png)
+
+### Quản lý phiên làm việc
+
+![Hermes Max Command Center - Sessions](screenshots/hermes-max-sessions.png.png)
+
+---
 
 ## Read this first
 
