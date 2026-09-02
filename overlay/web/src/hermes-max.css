@@ -6307,3 +6307,135 @@
   color: var(--hermes-command-red, #f87171);
   font-size: 0.64rem;
 }
+
+/* ── Thanh git dưới ô soạn tin, và danh sách phiên gom nhóm (v2.30.0) ─── */
+
+.hermes-git-bar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--hermes-command-border);
+  border-bottom: 0;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background: var(--hermes-command-surface-2);
+  font-size: 0.66rem;
+}
+
+.hermes-git-bar svg {
+  flex-shrink: 0;
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-git-bar code {
+  overflow: hidden;
+  max-width: 16rem;
+  color: var(--hermes-command-text);
+  font-size: 0.66rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hermes-git-bar code.is-detached {
+  color: var(--hermes-command-gold);
+}
+
+.hermes-git-sync {
+  color: var(--hermes-command-gold);
+}
+
+.hermes-git-diff {
+  color: var(--hermes-command-green);
+}
+
+.hermes-git-conflict {
+  color: var(--hermes-command-red, #f87171);
+}
+
+.hermes-git-clean {
+  color: var(--hermes-command-cyan);
+  opacity: 0.75;
+}
+
+.hermes-git-refresh {
+  margin-left: auto;
+  color: var(--hermes-command-cyan);
+}
+
+.hermes-git-refresh:disabled {
+  opacity: 0.5;
+}
+
+/* ── Danh sách phiên: tiêu đề mốc thời gian và nút ghim ──────────────── */
+
+.hermes-session-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.35rem 0 0.1rem;
+  padding: 0 0.15rem;
+  color: var(--hermes-command-gold);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hermes-session-heading span {
+  color: var(--hermes-command-cyan);
+  font-weight: 600;
+  letter-spacing: normal;
+}
+
+.hermes-session-pin-note {
+  margin: 0 0 0.2rem;
+  padding: 0 0.15rem;
+  color: var(--hermes-command-cyan);
+  font-size: 0.58rem;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+.hermes-session-row {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.hermes-session-row > *:first-child {
+  min-width: 0;
+  flex: 1;
+}
+
+/* Nút ghim chỉ hiện khi rê chuột vào hàng, hoặc khi phiên đó đang được ghim
+   — để danh sách lúc bình thường không bị rối. */
+.hermes-session-pin {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.3rem;
+  opacity: 0;
+  color: var(--hermes-command-cyan);
+  transition: opacity 0.12s ease;
+}
+
+.hermes-session-row:hover .hermes-session-pin,
+.hermes-session-pin:focus-visible,
+.hermes-session-pin.is-pinned {
+  opacity: 1;
+}
+
+.hermes-session-pin:hover {
+  background: rgb(255 255 255 / 0.08);
+  color: var(--hermes-command-text);
+}
+
+.hermes-session-pin.is-pinned {
+  color: var(--hermes-command-gold);
+}

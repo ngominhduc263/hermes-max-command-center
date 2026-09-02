@@ -160,7 +160,7 @@ $overlayPath = Join-Path $PSScriptRoot 'overlay'
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 $backupPath = Join-Path $HermesRoot "backups\hermes-teal-max-$stamp"
 $distPath = Join-Path $repoPath 'hermes_cli\web_dist'
-$dashboardVersion = 'v2.29.0'
+$dashboardVersion = 'v2.30.0'
 $hermesExe = Join-Path $repoPath 'bin\hermes.exe'
 
 if (-not (Test-Path -LiteralPath $repoPath -PathType Container)) {
@@ -219,6 +219,13 @@ $relativeFiles = @(
     'web\src\components\PetCorner.test.tsx'
     'web\src\components\SessionTools.tsx'
     'web\src\components\CheckpointsPanel.tsx'
+    'web\src\lib\git-status.ts'
+    'web\src\lib\git-status.test.ts'
+    'web\src\lib\session-groups.ts'
+    'web\src\lib\session-groups.test.ts'
+    'web\src\components\GitStatusBar.tsx'
+    'web\src\components\ChatSessionList.tsx'
+    'web\src\lib\api.ts'
     'web\src\lib\chat-composer.ts'
     'web\src\lib\chat-composer.test.ts'
     'web\src\lib\chat-favorite-models.ts'

@@ -9,17 +9,6 @@ tools, file checkpoints, and the animated pet.
 modifies a Hermes Agent installation on your own machine.
 
 ---
-## Screenshots
-
-### Giao diện trò chuyện
-
-![Hermes Max Command Center - Chat](screenshots/hermes-max-chat.png.png)
-
-### Quản lý phiên làm việc
-
-![Hermes Max Command Center - Sessions](screenshots/hermes-max-sessions.png.png)
-
----
 
 ## Read this first
 
@@ -73,7 +62,7 @@ Then open <http://127.0.0.1:9119/>.
 |---|---|
 | `-HermesRoot <path>` | Skip auto-detection and use this installation. |
 | `-Language auto\|vi\|en` | `auto` (default) switches the dashboard to Vietnamese **only if Windows is set to Vietnamese**. `vi` always switches, `en` never touches the setting. |
-| `-FullTests` | Run Hermes's entire web test suite (874 tests) instead of only this package's (589). |
+| `-FullTests` | Run Hermes's entire web test suite (909 tests) instead of only this package's (624). |
 | `-SkipTests` | Skip the post-build tests. |
 | `-SkipBackgroundTask` | Do not (re)install the scheduled task that keeps the dashboard running. |
 
@@ -169,10 +158,59 @@ reproductions that fail on stock Hermes and pass once patched:
   from the chat. A user-created branch has the same problem for the same reason.
   Reproduction: `Test-HermesSessionTree.py`.
 
+- **Hermes Desktop's installer kills the background web dashboard, and Windows
+  never restarts it.** Desktop's docs say it is "self-contained… never opens or
+  requires the web dashboard", and it is true that it binds its own random port
+  rather than 9119. But installing it — and every later self-repair — runs
+  `scripts/install.ps1`, which executes `taskkill /F /T /IM hermes.exe`
+  machine-wide and then sweeps up to ten more passes by venv path to catch
+  supervised processes that respawn. It explicitly spares the *gateway's*
+  autostart task (matched as `*Hermes_Gateway*`) but nothing else. Separately,
+  `hermes update` stops dashboards and skips the respawn entirely on Windows
+  (`if restart_managed and sys.platform != "win32"`).
+  This package's scheduled task now carries a 10-minute repeat trigger so it
+  heals itself; see [Running alongside Hermes Desktop](#running-alongside-hermes-desktop).
+
 Two more are worked around but not yet reported: `rollback.list` reads a
 `message` key the checkpoint manager never emits (so every checkpoint label is
 empty), and `rollback.diff` discards the manager's error flag, making a failed
 lookup indistinguishable from a clean tree.
+
+---
+
+## Running alongside Hermes Desktop
+
+You can run both — they talk to the same profiles, sessions and rooms, and a
+session pinned in one shows up pinned in the other.
+
+One caveat, which is Hermes's behaviour and not this package's: **installing or
+repairing Hermes Desktop kills every `hermes` process on the machine**,
+including a background dashboard, and on Windows nothing restarts it. This
+package's scheduled task is therefore registered with a 10-minute repeat
+trigger; combined with `MultipleInstances IgnoreNew` and the launcher's own
+port check, a dashboard that gets killed comes back within ten minutes and one
+that is already running is left alone.
+
+If yours is not coming back, re-register the task:
+
+```powershell
+& '<extracted-folder>\Install-HermesDashboardTask.ps1'
+```
+
+To confirm what happened, these are the useful checks:
+
+```powershell
+# Is anything on 9119, and what?
+Get-NetTCPConnection -LocalPort 9119 -State Listen |
+  Select-Object OwningProcess,@{n='Proc';e={(Get-Process -Id $_.OwningProcess).Path}}
+
+# Did a destructive reinstall run? A parked venv is the fingerprint.
+Get-ChildItem "$env:LOCALAPPDATA\hermes\hermes-agent" -Directory -Filter 'venv.stale.*' |
+  Select-Object Name,CreationTime
+
+# What Task Scheduler thinks
+schtasks /Query /TN "Hermes Dashboard" /V /FO LIST
+```
 
 ---
 

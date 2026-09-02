@@ -1,10 +1,86 @@
-# Hermes Max · Command Center v2.29.0 — Ivory Graphite
+# Hermes Max · Command Center v2.30.0 — Ivory Graphite
 
 Gói nâng cấp Dashboard cho **Hermes Agent v0.21.0**, chạy nền bằng Windows
 Scheduled Task nên đóng PowerShell không làm Dashboard tắt.
 
 Bản 2.4.0 sửa dứt điểm lỗi **gửi tệp và ảnh**, đồng thời hoàn thiện khung chat
 theo chuẩn của các dashboard agent và chatbot hiện đại.
+
+## v2.30.0 — thanh git, danh sách phiên gom nhóm, và sửa lỗi Dashboard nền bị giết
+
+Hai thứ lấy từ Hermes Desktop, cộng một lỗi thật.
+
+### 1. Thanh git dưới ô soạn tin
+
+`main ↑233 ↓1 +27737 −118`. Đang bảo agent sửa file thì repo lệch bao nhiêu là
+thứ nên thấy ngay, không phải mở terminal.
+
+Dữ liệu lấy từ `GET /api/git/status` — **đúng endpoint mà Desktop dùng**, không
+phải tự đoán. Hai hành vi của nó phải xử lý riêng:
+
+- Thư mục không phải kho git thì nó trả **body null chứ không phải 404**, tức
+  vẫn là phản hồi thành công. Thanh này im lặng biến mất thay vì báo lỗi.
+- **Không có sự kiện đẩy** cho thay đổi cây làm việc ở bất kỳ đâu trong Hermes.
+  Desktop poll ở các mốc: lượt xong, công cụ xong, cửa sổ được focus. Mình làm
+  đúng vậy, chứ không chạy timer vô tận.
+
+Một chỗ cố ý không nói quá: `ahead: 0, behind: 0` vừa có nghĩa "ngang bằng
+remote" vừa có nghĩa "không có upstream để so", mà payload không phân biệt.
+Nên số 0 thì **không vẽ gì cả**, và tooltip ghi "chưa so được với remote"
+thay vì "đã đồng bộ".
+
+### 2. Danh sách phiên gom theo mốc thời gian, ghim được
+
+Đã ghim → Hôm nay → Hôm qua → 7 ngày qua → 30 ngày qua → Cũ hơn. Rê chuột vào
+một hàng là hiện nút ghim.
+
+**Ghim dùng chung với Desktop.** `sessions.pinned` là cột thật trong database,
+`PATCH /api/sessions/{id}` là đường ghi, và đó chính là cột Desktop ghi. Ghim ở
+Dashboard thì mở Desktop cũng thấy. Panel có ghi rõ câu này dưới mục Đã ghim.
+
+Thứ **không** dùng chung là thứ tự ghim — Desktop giữ riêng trong localStorage
+của nó, không có cột nào cả. Nên bên mình sắp theo thời gian, để không bao giờ
+mâu thuẫn với bên kia.
+
+Mốc thời gian tính theo **lịch chứ không theo số giờ trôi qua**: tin lúc 11 giờ
+đêm qua, đọc lúc 1 giờ sáng nay, là "Hôm qua" — mới 2 tiếng nhưng khác ngày.
+Làm kiểu khác là lệch với đồng hồ trên tường mà người đọc không nói ra được sai
+ở đâu.
+
+### 3. Sửa lỗi Dashboard nền bị Hermes Desktop giết
+
+Anh Haruto báo: cài Hermes Desktop xong thì Dashboard nền không sống nữa, phải
+mở PowerShell chạy tay và đóng cửa sổ là mất.
+
+Đọc mã nguồn thì ra nguyên nhân, và **không phải xung đột cổng** — Desktop chạy
+backend riêng ở cổng ngẫu nhiên (`serve --port 0`), không đụng 9119. Thật ra:
+
+- Khi cài (và mỗi lần tự sửa chữa) Desktop chạy `scripts\install.ps1`, và script
+  đó gọi `taskkill /F /T /IM hermes.exe` — **giết mọi tiến trình hermes.exe trên
+  máy**, rồi quét thêm tối đa 10 lượt theo đường dẫn venv để diệt cả tiến trình
+  được giám sát tự bật lại.
+- Nó **có chừa** task tự khởi động của Gateway (tìm theo tên `*Hermes_Gateway*`,
+  tắt rồi bật lại) nhưng **không chừa** task Dashboard.
+- Trên Windows, `hermes update` cũng dừng dashboard mà **không bật lại** — đoạn
+  respawn bị chặn bởi `if restart_managed and sys.platform != "win32"`.
+
+Task của mình trước đây chỉ có trigger **lúc đăng nhập**, nên bị giết là chết
+tới lần đăng nhập sau. Giờ có thêm **lịch lặp 10 phút**; kết hợp với
+`MultipleInstances IgnoreNew` và đoạn kiểm tra cổng sẵn có trong
+`Start-HermesDashboard.ps1` (thấy cổng đã có người nghe thì thoát ngay) thì:
+đang chạy → lần lặp không làm gì; bị giết → tối đa 10 phút sau tự sống lại.
+`RestartCount` cũng nâng từ 3 lên 5.
+
+Đây là **lỗi thứ sáu** tìm được ở Hermes, và là lỗi đáng báo nhất từ trước tới
+giờ: tài liệu Desktop khẳng định nó "self-contained… never opens or requires the
+web dashboard", mà thực tế trình cài của nó giết sạch tiến trình Hermes trên máy
+và dựng lại venv.
+
+### Cũng trong bản này
+
+`Start-HermesDashboard.ps1` và `Install-HermesDashboardTask.ps1` giờ cũng tự dò
+thư mục Hermes như hai script kia — trước đó vẫn còn cứng `D:\HERMES AGENT`, tức
+là gói public sẽ hỏng với bất kỳ ai không để Hermes ở ổ D.
 
 ## v2.29.0 — pet ảo, công cụ phiên, và checkpoint
 
@@ -1002,13 +1078,13 @@ kết quả thật vào bảng:
 
 Bảng "Chi tiết lệnh Hermes" ghi rõ đang dùng bao nhiêu lệnh và có mấy lệnh mới.
 
-**Installer tự chạy test sau khi build.** `Install-HermesTealMax.ps1` giờ chạy 27
-file test của chính overlay (589 test, khoảng 20 giây) ngay sau `npm run build`,
-rồi kiểm tra dấu phiên bản `v2.29.0` có thật sự nằm trong `web_dist` hay không.
+**Installer tự chạy test sau khi build.** `Install-HermesTealMax.ps1` giờ chạy 29
+file test của chính overlay (624 test, khoảng 21 giây) ngay sau `npm run build`,
+rồi kiểm tra dấu phiên bản `v2.30.0` có thật sự nằm trong `web_dist` hay không.
 Bất kỳ bước nào hỏng là **tự khôi phục toàn bộ source và `web_dist` cũ** rồi mới
 báo lỗi — nghĩa là một bản cài hỏng không bao giờ đến được máy anh.
 
-- `-FullTests` chạy trọn bộ test của web (874 test) thay vì chỉ phần overlay.
+- `-FullTests` chạy trọn bộ test của web (909 test) thay vì chỉ phần overlay.
 - `-SkipTests` bỏ hẳn bước test nếu máy đang bận.
 
 Mặc định chỉ chạy test của overlay, để test cũ của Hermes (nếu bản Hermes trên máy

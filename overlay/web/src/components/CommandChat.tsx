@@ -37,6 +37,7 @@ import { ClarifyCard } from "@/components/ClarifyCard";
 import { PetCorner } from "@/components/PetCorner";
 import { SessionTools } from "@/components/SessionTools";
 import { CheckpointsPanel } from "@/components/CheckpointsPanel";
+import { GitStatusBar } from "@/components/GitStatusBar";
 import { parseSideAnswer, type SideAnswer } from "@/lib/session-tools";
 import { ContextGauge } from "@/components/ContextGauge";
 import { FavoriteModelSwitch } from "@/components/FavoriteModelSwitch";
@@ -680,6 +681,12 @@ export function CommandChat({
   const [sideAnswers, setSideAnswers] = useState<SideAnswer[]>([]);
   /** Bumped on a `pet.changed` broadcast so the pet re-reads its sprite. */
   const [petTick, setPetTick] = useState(0);
+  /**
+   * Working directory of the active session, for the git indicator. The
+   * server sends `cwd` on every session row; the TS type just never declared
+   * it until now.
+   */
+  const [sessionCwd, setSessionCwd] = useState("");
   /** Which utility drawer is open: "" | "tools" | "checkpoints". */
   const [drawer, setDrawer] = useState("");
   /**
@@ -1272,6 +1279,48 @@ export function CommandChat({
       push();
     };
   }, [onAgentRoomChange]);
+
+  /**
+   * The active session's working directory, for the git indicator.
+   *
+   * Read from the session row rather than guessed: a chat resumed from
+   * another folder has a different cwd, and showing the wrong repo's status
+   * would be worse than showing none.
+   */
+  useEffect(() => {
+    const sessionId = activeSessionId;
+    if (!sessionId) {
+      void Promise.resolve().then(() => setSessionCwd(""));
+      return;
+    }
+    let alive = true;
+    void (async () => {
+      try {
+        const detail = (await api.getSessionDetail(sessionId, profile)) as {
+          cwd?: string | null;
+        };
+        if (alive) setSessionCwd((detail?.cwd ?? "").trim());
+      } catch {
+        if (alive) setSessionCwd("");
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [activeSessionId, profile]);
+
+  /**
+   * Bumped when a turn finishes, which is when the working tree is most
+   * likely to have changed. There is no push event for git state anywhere in
+   * Hermes, so this is the poll trigger — the same edge Desktop uses.
+   */
+  const [gitTick, setGitTick] = useState(0);
+  useEffect(() => {
+    if (!liveTurn.done) return;
+    // Deferred: a synchronous setState here cascades a render on the very
+    // frame the turn settles, which is the busiest one.
+    void Promise.resolve().then(() => setGitTick((value) => value + 1));
+  }, [liveTurn.done]);
 
   /**
    * One gateway RPC on this chat's existing connection.
@@ -1879,6 +1928,8 @@ export function CommandChat({
           toolRunning: !!liveTurn.tool,
         }}
       />
+
+      <GitStatusBar cwd={sessionCwd} refreshKey={gitTick} />
 
       <div className="hermes-command-composer">
         {/* Above the approval card: both block the turn, but a clarify is the

@@ -247,7 +247,7 @@ const CHAT_FONT_KEY = "hermes-chat-font-scale";
  * Stamped into the toolbar. When a fix does not show up on the user's box,
  * this is what tells us in one glance whether the build even landed.
  */
-export const HERMES_MAX_VERSION = "v2.29.0";
+export const HERMES_MAX_VERSION = "v2.30.0";
 const CHAT_SYNC_KEY = "hermes-chat-sync-terminal";
 /** Mirrors the vision cap in lib/chatImagePaste.ts. */
 const MAX_IMAGE_UPLOAD_BYTES = 25 * 1024 * 1024;
